@@ -1,0 +1,48 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
+
+# Credenciales
+.env
+
+# Caché de llamadas al LLM (regenerable)
+*.sqlite
+cache_llm.sqlite
+
+# Panel sin comprimir: ~137 MB, GitHub corta a 100 MB.
+# En el repo va panel_caso_mes.csv.gz; pandas lo lee igual.
+01_datos/procesados/conflictos/panel_caso_mes.csv
+01_datos/procesados/conflictos/panel_caso_mes.xlsx
+01_datos/procesados/conflictos/casos_unicos.xlsx
+01_datos/procesados/conflictos/fallos.xlsx
+
+# PDF del corpus (~580 MB) y hardlinks por maqueta
+01_datos/crudos/pdfs/*.pdf
+01_datos/crudos/pdfs/manifiesto.csv
+01_datos/crudos/pdfs/manifiesto.jsonl
+01_datos/crudos/pdfs_por_formato/**/*.pdf
+
+# Archivo local: dump viejo, respaldos, sondas, exportes Drive
+99_archivo/descarga_web_parcial/
+99_archivo/respaldos/
+99_archivo/logs/
+99_archivo/tmp_drive/
+99_archivo/latex_aux/
+99_archivo/_audit/
+
+# Respaldos si reaparecen junto a las salidas vigentes
+_backup_pre_saneamiento/
+_backup_pre_fixes/
+
+# LaTeX auxiliar
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz

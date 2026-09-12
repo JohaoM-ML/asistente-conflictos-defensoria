@@ -1,0 +1,17 @@
+# Python 3.11 o 3.12. torch lo trae sentence-transformers (primera vez ~200 MB).
+# Extracción de PDFs
+PyMuPDF==1.27.2
+
+# Datos y salidas
+pandas==2.2.3
+numpy==1.26.4
+openpyxl==3.1.5
+
+# Identidad de casos
+rapidfuzz==3.14.5
+sentence-transformers==5.1.1
+scikit-learn==1.5.2
+
+# Capa de enriquecimiento LLM
+google-genai==1.50.1
+python-dotenv==1.1.1

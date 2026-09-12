@@ -1,0 +1,27 @@
+02_codigo — scripts. Rutas centralizadas en rutas.py.
+
+Trabajo diario
+  extraer_conflictos.py     PDF → panel caso × mes
+  enriquecer_llm.py         Gemini, una llamada por caso_id (opcional)
+  comprobar_entorno.py      verifica un clon (deps + datos versionados)
+
+Paquetes
+  defensoria_extract/       lectura geométrica, fichas, banderas, identidad
+  llm/                      prompts, esquema, caché y cliente Gemini
+
+Corpus (ya corridos; solo si hay que rehacer inventario o bajar PDF)
+  descargar_reportes_defensoria.py
+  consolidar_pdfs_defensoria.py
+  completar_faltantes_defensoria.py
+  cruzar_pdfs_defensoria.py
+  extraer_fechas_reportes.py
+  clasificar_formatos_pdf.py
+
+Calidad
+  comparar_identidad.py     fuzzy vs embeddings
+  generar_muestra_dorada.py muestra a anotar
+  evaluar_extraccion.py     precisión por campo y por maqueta
+
+Utilidad
+  recrear_tabla_conflicto.py  83 casos de Drive, desde el panel local
+  leer_panel_caso_mes.ipynb   lectura rápida del panel

@@ -1,0 +1,28 @@
+COMPARACIÓN: Copia de Conflicto (1) [Drive] vs conflicto_recreado [local]
+
+Filas Drive: 83
+Filas locales (mismo catálogo de minas): 507
+Emparejados (score >= 70, greedy 1-1): 71
+
+Recuperación (recall, % de los 83 de Drive hallados): 85.5%
+Precisión vs Drive (% de filas locales que coinciden con un caso Drive): 14.0%
+Score medio de emparejamiento: 96.7
+
+Acuerdo de campos SOLO entre emparejados:
+  Departamento: 93.0%
+  Tipo_estandarizado: 95.8%
+  Minas (al menos una en común): 100.0%
+  Compañía (al menos una en común): 97.2%
+  Primera fecha (±6 meses): 77.5%
+  Exactitud de campos (ponderada): 94.7%
+
+EXACTITUD GLOBAL (0.55*recall + 0.45*acuerdo de campos): 89.7%
+
+Notas:
+- El resumen NO es ChatGPT: es extractivo del campo Caso (fuente_resumen).
+- Pueblos: cruce con el listado de Drive si el nombre aparece en el texto; si no, ubicación extraída.
+- EsIlegal/EsInformal: heurística de palabras, no la etiqueta manual de Drive.
+- Hay más filas locales porque hay más PDF (hasta n.269) y el agrupamiento fuzzy es distinto.
+- CasoResumidoChatGPT de Drive no se puede reproducir al pie de la letra sin el modelo original.
+
+Salida: C:\Users\USER\OneDrive\Escritorio\2026-2\Asistente\01_datos\procesados\conflictos\conflicto_recreado.xlsx

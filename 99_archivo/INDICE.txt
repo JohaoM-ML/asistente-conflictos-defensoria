@@ -1,0 +1,23 @@
+99_archivo — no usar para análisis. Conserva lo que no debe competir con lo vigente.
+
+En GitHub solo está este índice. El dump de PDF, respaldos y sondas se quedan en la máquina local.
+
+descarga_web_parcial/
+  Primera descarga web (~218 PDF). El corpus unificado está en 01_datos/crudos/pdfs.
+
+tmp_drive/
+  Exportes de Drive (Copia de Conflicto, pueblos × minas) para comparar.
+
+respaldos/
+  Paneles e inventario de antes de los arreglos de auditoría.
+  conflictos_pre_fixes / conflictos_pre_saneamiento / inventario_pre_fixes
+
+_audit/
+  Scripts de una sola vez de la auditoría de septiembre 2026.
+  No son el extractor.
+
+logs/
+  Salida cruda de corridas (p. ej. _log_extraccion.txt).
+
+latex_aux/
+  .log y similares de al compilar los .tex.

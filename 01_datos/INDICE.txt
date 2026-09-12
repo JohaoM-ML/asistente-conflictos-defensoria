@@ -1,0 +1,19 @@
+01_datos — insumos y salidas del extractor local
+
+crudos/pdfs
+  Corpus vigente. PDF nativos de la Defensoría (mensuales n.º 1–269).
+  No se suben a GitHub. Ver README.md, camino B.
+  No editar. Si hay que reemplazar un archivo, dejar el viejo en 99_archivo.
+
+crudos/pdfs_por_formato
+  Los mismos PDF, agrupados por maqueta (hardlinks, no copias extra).
+  Ver crudos/pdfs_por_formato/INDICE.txt.
+
+inventario
+  Calendario, fechas de portada, formatos de maqueta y cruce con Drive.
+  El que usa el extractor es fechas.csv + formatos_pdf_defensoria.csv.
+
+procesados/conflictos
+  Productos vigentes: panel, casos únicos, fallos, resúmenes LLM.
+  Comparaciones y muestra dorada van en procesados/conflictos/calidad.
+  Copias viejas del panel: 99_archivo/respaldos. No usar esas para analizar.

@@ -1,0 +1,9 @@
+03_notas — bitácora del grupo, no el paper ni el pipeline.
+
+Informes LaTeX de la carpeta Minería en el Shared Drive Johao_asistente.
+Explican cómo se reordenó ese archivo y cómo usarlo.
+
+  reunion_orden_carpeta_mineria.tex   nota corta para la reunión
+  informe_reorganizacion_mineria.tex  informe largo (criterios + árbol)
+
+La documentación del extractor local está en 04_docs, no aquí.

@@ -1,0 +1,31 @@
+Formatos de los reportes mensuales de conflictos sociales
+Fuente: portada (texto de las primeras 2 páginas) de 01_datos/crudos/pdfs.
+Los PDF de cada carpeta son hardlinks al mismo archivo (no ocupan espacio extra).
+
+01_lista_narrativa_abr2004
+  n.1 · abril 2004 · 1 PDF · ~11 páginas
+  Sin encabezado «REPORTE Nº». Relato de conflictos municipales/regionales.
+
+02_reporte_N_tabla_2004_2006
+  n.2–34 · mayo 2004 – diciembre 2006 · 33 PDF · ~39 páginas
+  «REPORTE Nº X» + «Al DD de mes» + resumen y tabla por región. Estilo Word (Arial).
+
+03_unidad_reporte_N_2007_2008
+  n.35–49 · 2007 – inicios 2008 · 15 PDF · ~149 páginas
+  Banner «UNIDAD DE CONFLICTOS SOCIALES». Mismo esquema Nº + fecha de corte, pero mucho más largo.
+
+04_unidad_sumilla_2008_2009
+  n.50–62 · abril 2008 – abril 2009 · 14 PDF (13 n.º; n.61 duplicado) · ~65 páginas
+  «N° 50, abril 2008» + SUMILLA (índice). Franklin Gothic. Más corto otra vez.
+
+05_adjuntia_portada_2009_2023
+  n.63–238 · 2009 – diciembre 2023 · 177 PDF (176 n.º) · ~115 páginas
+  Adjuntía para la Prevención de Conflictos. Portada con titular SURGIERON… y viñetas estadísticas.
+
+06_infografia_ciclo_2024_2026
+  n.239–269 · enero 2024 – julio 2026 · 33 PDF (31 n.º; duplicados 241 y 242) · ~120 páginas
+  Portada con ciclo del conflicto: fase temprana / escalamiento / desescalamiento / crisis.
+
+07_especial_no_mensual
+  conflictos_sociales35_especial.pdf · enero 2007 · 9 páginas
+  Elecciones regionales y municipales 2006. No es un mensual de la serie.

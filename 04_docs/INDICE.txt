@@ -1,0 +1,7 @@
+04_docs — cómo se extrae (este directorio y el pipeline viejo de Drive).
+
+  metodologia_extraccion_conflictos.tex   contraste viejo vs local
+  pipeline_local_conflictos.tex           flujo de este directorio (Asistente)
+  pipeline_drive_conflictos.tex           flujo de Drive Minería y por qué se dejó
+
+No son el paper. Las notas de reunión de la carpeta Minería están en 03_notas.

@@ -1,0 +1,541 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{longtable}
+
+\geometry{margin=2.3cm, top=2.6cm, bottom=2.6cm}
+\setstretch{1.15}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.28em,topsep=0.4em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.28em,topsep=0.4em}
+
+\definecolor{upnavy}{HTML}{1F3A5F}
+\definecolor{upgray}{HTML}{5A6570}
+\definecolor{upsoft}{HTML}{E8EEF4}
+
+\hypersetup{colorlinks=true,urlcolor=upnavy,linkcolor=upnavy}
+\titleformat{\section}{\large\bfseries\color{upnavy}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{upnavy}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\itshape\color{upnavy}}{\thesubsubsection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{upgray}Metodología de extracción --- Defensoría}
+\fancyhead[R]{\small\color{upgray}Universidad del Pacífico}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1.4cm}
+{\color{upnavy}\rule{\textwidth}{1.4pt}}\\[0.7em]
+{\LARGE\bfseries\color{upnavy} Metodología de extracción de conflictos}\\[0.35em]
+{\Large De los PDF de la Defensoría del Pueblo a un panel caso $\times$ mes}\\[0.7em]
+{\color{upnavy}\rule{\textwidth}{1.4pt}}\\[1.3em]
+{\large Contraste entre el CSV de la carpeta Minería (Drive)\\[0.2em]
+y el extractor local \texttt{defensoria\_extract}}\\[2em]
+
+\begin{flushleft}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}l@{\hspace{1.2em}}l@{}}
+\textbf{Proyecto} & Minería, conflictos sociales e indicadores territoriales \\
+\textbf{Institución} & Universidad del Pacífico \\
+\textbf{Fuente} & Reportes mensuales de conflictos sociales, Defensoría del Pueblo \\
+\textbf{Disco Drive} & \texttt{Johao\_asistente} $\rightarrow$ carpeta Minería \\
+\textbf{Código local} & \texttt{02\_codigo/defensoria\_extract} \\
+\textbf{Salida local} & \texttt{01\_datos/procesados/conflictos/panel\_caso\_mes.csv} \\
+\textbf{Fecha} & Agosto 2026 \\
+\end{tabular}
+\end{flushleft}
+
+\vfill
+\begin{flushleft}
+\color{upgray}\small
+Este documento describe, con el detalle del código y de los archivos que quedaron en Drive, cómo se construyó el CSV de conflictos de la carpeta Minería y cómo se volvió a extraer el contenido con el paquete local. No es un paper: es la bitácora de método, criterios y mejoras. El archivo \texttt{.tex} no se compiló a propósito; vive en \texttt{04\_docs}.
+\end{flushleft}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Qué se compara y por qué}
+
+Hay dos productos que parecen el mismo ---una tabla de conflictos sacada de los reportes mensuales de la Defensoría--- y no lo son.
+
+El primero está en el Shared Drive \texttt{Johao\_asistente}, carpeta Minería. Allí el equipo dejó, entre 2024 y febrero de 2025, un pipeline en notebooks (\texttt{02\_Codigo/conflictos\_defensoria/Extraccion\_2004\_2025}) y dos CSV de trabajo:
+
+\begin{itemize}
+  \item \texttt{Conflicto.csv}: 83 casos únicos, todos etiquetados como mineros, con resumen de ChatGPT, pueblos, minas y compañía.
+  \item \texttt{ReporteFechaxConflicto.csv}: 3\,777 filas caso $\times$ mes, solo para esos 83 grupos, cubriendo ediciones 7 a 251 (septiembre 2004--enero 2025).
+\end{itemize}
+
+El segundo es el trabajo local de este directorio. El paquete \texttt{defensoria\_extract} lee los PDF nativos y escribe un panel de \textbf{35\,195} filas (caso $\times$ mes) sobre \textbf{269} reportes (n.$^\circ$~1--269, abril 2004--julio 2026), sin tirar los conflictos no mineros. La minería queda como bandera (\texttt{es\_socioambiental}, \texttt{menciona\_mineria}).
+
+La diferencia no es cosmética. Cambia la unidad de observación, el universo, la forma de leer el PDF, el criterio de identidad de un caso y el criterio de ``esto es minería''. Lo que sigue reconstruye las dos metodologías con el detalle del código, no con una glosa.
+
+\section{El problema común}
+
+Los reportes no son una base de datos. Son PDF de maqueta cambiante (2004--2026): listas narrativas, tablas por región, fichas de dos columnas con \texttt{Tipo:}/\texttt{Caso:}/\texttt{Ubicación:}, infografías de ciclo. Un mismo conflicto reaparece mes a mes con redacción distinta. Extraer ``el CSV'' implica, en ambos pipelines, cinco decisiones:
+
+\begin{enumerate}
+  \item Qué PDF entran (cobertura y duplicados).
+  \item Dónde empieza y termina el detalle de fichas (no la portada estadística).
+  \item Cómo recortar una ficha (campos, columnas, saltos de página).
+  \item Cómo saber que dos textos son el mismo caso (identidad).
+  \item Cómo marcar minería (filtro que borra el resto vs.\ bandera que lo deja).
+\end{enumerate}
+
+Las dos metodologías responden esas cinco preguntas de forma distinta.
+
+%----------------------------------------------------------------------
+\section{Metodología Drive: de PDF recortado a CSV}
+
+Ruta en Drive: \texttt{Minería/02\_Codigo/conflictos\_defensoria/Extraccion\_2004\_2025}. Notebooks: \texttt{Procesamiento 2004 - 2025.ipynb} ($\approx$498 celdas), \texttt{Unificación.ipynb}, \texttt{Fuzzy.ipynb}, \texttt{Casos\_Filtrados\_Actualizado.ipynb}. Inventario de PDF: \texttt{conflictos\_sociales\_pdfs.csv} (251 ediciones, n.$^\circ$~1--251, todas marcadas \texttt{Revisado=OK}).
+
+\subsection{Paso 0. Conversión externa (iLovePDF)}
+
+El código no lee el PDF como documento con geometría. El flujo de trabajo, visible en las rutas \texttt{C:\textbackslash Users\textbackslash Rofer\textbackslash \ldots\textbackslash ILOVEPDF\textbackslash Procesamiento 2004 - 2025}, es:
+
+\begin{enumerate}
+  \item Recortar el PDF original a un PDF ``de sección'' (solo activos, solo latentes, etc.).
+  \item Pasar ese recorte por iLovePDF (o equivalente) a Excel o Word.
+  \item Parsear el Excel/Word con pandas o \texttt{python-docx}.
+\end{enumerate}
+
+Eso tiene una consecuencia de método: \textbf{se pierde la geometría de página}. Las dos columnas de una ficha (descripción a la izquierda, hechos del mes a la derecha) llegan como celdas de una hoja, no como bloques con coordenadas $(x,y)$. Si el conversor mezcla columnas, el parser hereda el error.
+
+Herramientas de recorte: \texttt{pdfplumber} para buscar frases de inicio/fin en el texto de página; \texttt{PyPDF2} (\texttt{PdfReader}/\texttt{PdfWriter}) para copiar el rango a \texttt{recortado\_*.pdf}.
+
+\subsection{Paso 1. Recorte por frases de sección}
+
+La función central es \texttt{recortar\_pdfs(frase\_inicio, frase\_fin, \ldots)}. Recorre páginas, guarda el índice de la primera que contiene la frase de inicio y el de la primera posterior que contiene la de fin, y escribe un PDF nuevo. Las frases se cambiaron a mano cada vez que la Defensoría renumeró el índice. El notebook de 2024--2025 deja anotadas, mes a mes, las rúbricas reales, por ejemplo:
+
+\begin{itemize}
+  \item Activos, setiembre 2024: ``V.\ DETALLE DE LOS CONFLICTOS SOCIALES ACTIVOS'', luego ``5.1 CONFLICTOS ACTIVOS DESARROLLADOS EN UN SOLO DEPARTAMENTO'', corte en ``5.3 CONFLICTOS REACTIVADOS''.
+  \item Latentes: ``VI.\ DETALLE DE LOS CONFLICTOS LATENTES'' / ``6.1 CONFLICTOS QUE HAN PASADO DE ESTADO ACTIVO A LATENTE''.
+  \item Inactivos: ``6.2 \ldots HAN SALIDO DEL REGISTRO PRINCIPAL POR INACTIVIDAD PROLONGADA''.
+  \item Resueltos: ``1.4 CONFLICTOS RESUELTOS'' (y en octubre 2024 ya es ``8.1'' dentro de ``VIII.\ CASOS QUE SALIERON DEL REPORTE'').
+\end{itemize}
+
+Criterio: \textbf{una sección del índice = un archivo}. El estado (Activo, Latente, Resuelto, Inactivo, Fusionado, Nuevo) no se infiere de la ficha: se hereda de la carpeta a la que cayó el recorte.
+
+Ventana de trabajo: once periodos con parser propio, porque la maqueta no era estable.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}l Y@{}}
+\toprule
+\textbf{Periodo} & \textbf{Qué se recortaba y cómo se leía} \\
+\midrule
+Abril 2004 & Solo activos; texto de Word (\texttt{python-docx}), más dos casos de Cajamarca añadidos a mano. \\
+Mayo 2004 & Excel de tabla regional; se rellenaba departamento al ver filas \texttt{REGIÓN \ldots} \\
+Jun--ago 2004 & Activos, nuevos y concluidos; párrafos con etiquetas Antecedentes / Cuestionamiento / Hechos. \\
+Set--oct 2004 & Se suman inactivos (``Desactivado'' vs ``Resuelto''). \\
+Nov 2004--dic 2005 & Activos, latentes y resueltos (estos últimos a veces en cuadros). \\
+Ene--dic 2006 & Texto corrido; funciones distintas por estado. \\
+Ene 2007--mar 2008 & Tablas + texto (reportes 35--49). \\
+Abr 2008--jul 2011 & Cuatro estados; aparece \texttt{pdfplumber} de forma sistemática. \\
+Ago 2011--jul 2014 & Latentes partidos en dos oleadas (hasta n.$^\circ$~108 y desde 109). \\
+Ago--set 2014 & Se añaden fusionados. \\
+Oct 2014--set 2024 & Maqueta Adjuntía; parser de dos columnas sobre Excel. \\
+Oct 2024--ene 2025 & Mismos campos, rúbricas de índice distintas (ciclo / ``no registraron hechos''). \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Paso 2. Parseo del Excel convertido}
+
+Una vez el recorte es una hoja, el parser típico de la etapa Adjuntía (\texttt{procesar\_reporte\_conflictos\_activos}) hace esto:
+
+\begin{enumerate}
+  \item Lee \emph{todas} las hojas (\texttt{sheet\_name=None}, sin encabezado).
+  \item Tira filas cuyo texto coincide con títulos de sección o con las palabras ``Descripción'', ``Hechos del mes'', ``Estado actual'' (encabezados de tabla que el conversor dejó como celdas).
+  \item Fuerza un esquema de dos columnas: izquierda = ficha, derecha = hechos. Según el periodo, o bien concatena todas las columnas menos la última, o bien se queda con la primera y la última.
+  \item Acumula filas hasta ver un nuevo \texttt{Tipo} / \texttt{CASO} / nombre de departamento; entonces cierra la ficha anterior.
+  \item Parte la descripción con regex de etiquetas (\texttt{Tipo}, \texttt{Caso}, \texttt{Ubicación}, actores) ---función \texttt{procesar\_parrafo}--- y, si hace falta, \texttt{combinar\_caso\_tipo} cuando el conversor pegó ``Tipo'' y ``Caso'' en la misma celda.
+  \item Detecta diálogo en la columna de hechos (\texttt{procesar\_columna\_dialogo}).
+\end{enumerate}
+
+Criterio de inicio de ficha: la celda izquierda \texttt{startswith('Tipo')} o \texttt{startswith('CASO')}, o es un departamento de una lista canónica de 25 nombres. Criterio de corte de departamento: la misma lista; los casos ``más de un departamento'' se activan cuando aparece esa rúbrica, no por geometría.
+
+En 2004--2007 el criterio es otro: filas numeradas (\texttt{1.\ \ldots}), bloques \texttt{REGIÓN X}, y secciones de párrafo (Antecedentes, Cuestionamiento, Hechos, Intervención defensorial). El campo \texttt{Caso} a menudo se \emph{reconstruye} concatenando Antecedentes + Hechos + Cuestionamiento, porque la maqueta temprana no trae la etiqueta \texttt{Caso:}.
+
+\subsection{Paso 3. Unificación de esquemas}
+
+\texttt{Unificación.ipynb} no vuelve a leer PDF. Carga un Excel por periodo y por estado, \textbf{renombra columnas a un esquema común} y concatena:
+
+\begin{itemize}
+  \item \texttt{activototal} = 12 bloques de activos (abril 2004 $\ldots$ enero 2025), más los ``nuevos'' de 2004 tratados como activos.
+  \item \texttt{latentetotal}, \texttt{inactivototal}, \texttt{resueltototal}, \texttt{fusionadototal}.
+\end{itemize}
+
+Ejemplos del criterio de armonización (no es un diccionario único: es celda a celda):
+
+\begin{itemize}
+  \item Mayo 2004: \texttt{Autoridad cuestionada} $\to$ Actores; \texttt{Motivo} $\to$ Caso; \texttt{Fecha de inicio} $\to$ Ingreso como caso nuevo.
+  \item Set--oct 2004: \texttt{Caso} se arma con \texttt{Antecedentes + Hechos + Cuestionamiento}.
+  \item 2008--2011 latentes: se separa el tipo del texto con una lista cerrada de 30+ variantes (``conflicto socioambiental'', ``conflicto por asuntos de gobierno local'', \ldots).
+  \item Resueltos 2004: \texttt{Forma de resolución} = Desenlace + Últimos acontecimientos.
+\end{itemize}
+
+Salida intermedia: \texttt{ConflictosTotales2024\_2025.xlsx} (todos los estados, todavía sin identidad fuzzy). Cada fila lleva \texttt{Estado} impuesto por el bloque (\texttt{activototal['Estado']='Activo'}, etc.), no leído del PDF.
+
+\subsection{Paso 4. Identidad fuzzy}
+
+\texttt{Fuzzy.ipynb}:
+
+\begin{enumerate}
+  \item Estandariza \texttt{Caso} a minúsculas, quita puntuación, \textbf{conserva tildes} (\texttt{NFC}), no quita stopwords.
+  \item Cruza con el inventario de PDF para pegar fecha y número de edición.
+  \item Agrupa con \texttt{rapidfuzz.fuzz.token\_sort\_ratio}, umbral \textbf{90}, sobre la \textbf{lista nacional} de textos (complejidad $n^2$, sin bloquear por departamento).
+  \item Asigna \texttt{Grupo\_k}. Calcula primera/última fecha, meses entre extremos, meses faltantes, y si el grupo pasó a inactivo / fusionado / resuelto.
+\end{enumerate}
+
+Límite documentado por el propio equipo: Excel trunca celdas en 32\,767 caracteres, así que grupos muy largos (muchas variantes concatenadas con \texttt{;}) se cortan. Nota en \texttt{Anotaciones - Detalles a mejorar.docx}: ``Hay una limitación de 32767, para agrupar''.
+
+\subsection{Paso 5. Filtro de minería (lista cerrada + revisión)}
+
+\texttt{Casos\_Filtrados\_Actualizado.ipynb} no usa el tipo ``socioambiental'' como filtro principal. Limpia tildes con \texttt{unidecode} y busca \textbf{palabras exactas} (límites de palabra) de una lista armada a mano:
+
+\begin{itemize}
+  \item Unidades / compañías: Antamina, Antapaccay, Atacocha, Cerro Corona, Las Bambas, Pucamarca, Quellaveco, San Cristóbal, Toromocho, Yanacocha, Glencore, Nexa, Gold Fields, MMG, Minsur, Anglo, Volcan, Chinalco, Newmont, Xstrata.
+  \item Pueblos asociados a esas minas (San Marcos, Challhuahuacho, Hualgayoc, Nueva Morococha, \ldots).
+\end{itemize}
+
+Quien matchea pasa a \texttt{FuzzyCompletar\_filtrado}. Después hay etiquetado manual (y resumen ChatGPT) de \texttt{EsMinera}, \texttt{EsIlegal}, \texttt{EsInformal}, \texttt{Pueblos}, \texttt{Minas}, \texttt{Compañía minera}. El CSV final \texttt{Conflicto.csv} tiene 83 filas, \textbf{todas} \texttt{EsMinera = Sí}.
+
+El panel \texttt{ReporteFechaxConflicto.csv} no es el universo de conflictos de la Defensoría: es la serie de esos 83 grupos (3\,777 filas; 3\,208 activos, 508 latentes, 34 resueltos, 26 inactivos, 1 fusionado; 244 PDF distintos).
+
+\subsection{Errores que el propio pipeline dejó escritos}
+
+El Word \texttt{Anotaciones - Detalles a mejorar.docx} es parte del método: lista fallos conocidos y no corregidos al momento de cerrar el CSV.
+
+\begin{itemize}
+  \item Faltan activos de mayo 2006 (n.$^\circ$~27) ``por el inicio de la página inicial''.
+  \item Faltan latentes marzo 2006--marzo 2007 (error de tabulación).
+  \item Resueltos enero 2007--marzo 2008 se recortaron con la frase de latentes.
+  \item 2007--2011: el match de ``Actor'' corta la palabra ``directorio''.
+  \item Latentes 2007--2008 incompletos porque la sección no agarra el párrafo entero.
+  \item Diciembre 2012 no corrió bien; Corire no debería compartir caso con Racrachaca.
+  \item Tipos que el filtro no cubría: laboral, gobierno local (aparecen igual, residuales, en el CSV de 83).
+\end{itemize}
+
+Eso no es un detalle menor: el CSV de Drive es un \textbf{producto curado y filtrado}, con huecos conscientes, no un volcado exhaustivo de fichas.
+
+%----------------------------------------------------------------------
+\section{Metodología local: el paquete \texttt{defensoria\_extract}}
+
+El extractor local no pasa por iLovePDF. Lee el PDF con PyMuPDF (\texttt{fitz}), clasifica la maqueta, arma fichas con geometría o con texto corrido, y escribe CSV. Entrada del CLI: \texttt{python -u 02\_codigo/extraer\_conflictos.py}.
+
+\subsection{Paso 0. Corpus e inventario (antes de extraer fichas)}
+
+Antes del parseo hay tres scripts que el pipeline de Drive no tenía como capa formal:
+
+\begin{enumerate}
+  \item \texttt{consolidar\_pdfs\_defensoria.py} / \texttt{completar\_faltantes\_defensoria.py}: unen la descarga web con los PDF de Drive Minería. Resultado: 275 PDF en \texttt{01\_datos/crudos/pdfs}; 269 mensuales n.$^\circ$~1--269; falta solo junio 2005. Se excluyen especiales y el archivo \texttt{MALNOMBRADO\_\ldots}.
+  \item \texttt{extraer\_fechas\_reportes.py}: número, mes y año desde portada (prioridad) y nombre de archivo. Criterio: regex de ``reporte \ldots n.$^\circ$~$k$'', ``al $d$ de $mes$ de $año$'', y mes/año pegado al encabezado (formato 2025).
+  \item \texttt{clasificar\_formatos\_pdf.py}: una etiqueta de maqueta por PDF, con reglas sobre las dos primeras páginas (palabras clave, si está escaneado, si menciona ``fase temprana''/``desescalamiento'', si dice Adjuntía, Sumilla, Unidad, ``distinta intensidad'').
+\end{enumerate}
+
+Seis formatos de trabajo (más un especial que el extractor salta):
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lrrll@{}}
+\toprule
+\textbf{Formato} & \textbf{PDF} & \textbf{n.$^\circ$} & \textbf{Años} & \textbf{Modo de lectura} \\
+\midrule
+\texttt{lista\_narrativa\_2004} & 1 & 1 & 2004 & texto corrido \\
+\texttt{reporte\_n\_tabla\_regiones} & 33 & 2--34 & 2004--06 & texto corrido \\
+\texttt{unidad\_reporte\_n} & 15 & 35--49 & 2007--08 & texto corrido \\
+\texttt{unidad\_sumilla} & 14 & 50--62 & 2008--09 & columnas \\
+\texttt{adjuntia\_portada\_estadistica} & 177 & 63--238 & 2009--23 & columnas \\
+\texttt{infografia\_ciclo\_2024} & 33 & 239--269 & 2024--26 & columnas \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Criterio de modo: si el formato está en \{\texttt{lista\_narrativa\_2004}, \texttt{reporte\_n\_tabla\_regiones}, \texttt{unidad\_reporte\_n}\} $\to$ texto corrido. Si está en \{sumilla, adjuntía, infografía\} $\to$ columnas. Si hay duda, se cuenta \texttt{tipo:} en las primeras 55 páginas: $\ge 8$ apariciones implica columnas.
+
+Si hay dos PDF del mismo número, se queda el de más páginas (\texttt{cargar\_inventario}).
+
+\subsection{Paso 1. Lectura geométrica de la página (\texttt{layout.py})}
+
+\texttt{bloques\_pagina} pide a PyMuPDF \texttt{get\_text("dict")}: bloques de texto con \texttt{bbox} $(x_0,y_0,x_1,y_1)$. Criterios de limpieza \emph{antes} de parsear fichas:
+
+\begin{itemize}
+  \item Se descartan bloques de imagen (\texttt{type $\ne$ 0}).
+  \item Cabecera: $y_1 < 55$; pie: $y_0 >$ alto $-50$.
+  \item Se tiran encabezados de página por contenido plegado (sin tildes): ``reporte mensual de conflictos'', ``adjuntía para la prevención'', ``subadjuntía\ldots'', ``dirección de la unidad de conflictos'', y etiquetas sueltas (\texttt{descripcion}, \texttt{hechos del mes}, \texttt{estado actual}, \texttt{n}, \texttt{departamento}).
+  \item Números de página de $\le 3$ dígitos.
+  \item Columna: si el punto medio $x$ del bloque es $< 300$, izquierda (\texttt{L}); si no, derecha (\texttt{R}). Orden de lectura: $y$, luego L antes que R, luego $x_0$.
+\end{itemize}
+
+Departamentos: diccionario canónico de 25 nombres + Multirregional / Multidepartamental / Nacional, con tildes unificadas (Áncash, Apurímac, \ldots) y soporte de ``AREQUIPA / PUNO''. Se acepta un bloque como departamento solo si, tras limpiar, cae en ese diccionario y el texto tiene menos de 48 caracteres.
+
+Esto sustituye al recorte por frase + Excel: la página se lee como la Defensoría la diagramó.
+
+\subsection{Paso 2. Ventana de detalle (\texttt{secciones.py})}
+
+No se recorta un PDF hijo. Se recorre el documento completo y se decide, página a página, si ya se está en el detalle.
+
+\textbf{Inicio} (\texttt{pagina\_inicia\_detalle}), sobre texto plegado. Criterios (cualquiera basta, con guardas):
+
+\begin{itemize}
+  \item ``detalle de los conflictos sociales activos'' y además hay $\ge 1$ \texttt{tipo:} o la rúbrica ``en un (solo) departamento''.
+  \item ``detalle de los conflictos'' con $\ge 2$ \texttt{tipo:}.
+  \item Anexo + ``descripcion de los conflictos''; o ``iii.\ descripcion de los conflictos''.
+  \item ``1.1 conflictos activos'' con $\ge 2$ \texttt{tipo:}.
+  \item $\ge 2$ \texttt{tipo:} y la frase ``la defensoria del pueblo da cuenta'' + ``conflictos activos''.
+  \item ``1.\ conflictos activos'' y ``estado:''; o ``1.\ nuevos casos''.
+  \item ``conflictos vigentes'' + ``region \ldots''; o par autoridad/ubicación; o par autoridad/motivo.
+\end{itemize}
+
+Guardas para \emph{no} abrir el detalle en la sumilla o en cuadros consolidados: si hay ``sumilla'' y $<3$ \texttt{tipo:}; si hay ``informacion consolidada'' y $<2$ \texttt{tipo:}; si coinciden ``fecha de inicio'' y ``estado situacional''.
+
+\textbf{Fin} (\texttt{pagina\_es\_stop}): solo después de haber arrancado. Se mira el encabezado de la página (primeras 12 líneas). Frases de corte: acciones colectivas de protesta, hechos de violencia contra la vida, actuaciones defensoriales, acciones de violencia subversiva, alertas tempranas. No se corta si la página sigue teniendo \texttt{tipo:} o si ``sumilla'' aparece en el primer tramo (sumillas embebidas).
+
+\textbf{Estado del bloque} (\texttt{estado\_de\_bloque}): títulos cortos ($<220$ caracteres) que cambian el estado de las fichas siguientes: Activo, Latente, Fusionado, Inactivo, Reactivado, Resuelto, Nuevo. ``Desarrollados en más de un departamento'' pone departamento = Multidepartamental y estado Activo.
+
+\subsection{Paso 3a. Fichas en dos columnas (\texttt{ExtractorPaginas})}
+
+Clase de estado. Recorre bloques L/R intercalados y mantiene una ficha abierta que \textbf{puede cruzar páginas} (el recorte de Drive cortaba el PDF, así que una ficha partida entre el final de un recorte y el inicio de otro se perdía o se partía).
+
+Reglas:
+
+\begin{itemize}
+  \item Título de estado o nombre de departamento: actualiza el contexto, no se pega a la ficha.
+  \item ``Observación'' / ``Cuadro n'' se ignoran.
+  \item Columna derecha: hechos del mes (y badges: ``caso nuevo'', ``hay diálogo'', ``no hay diálogo'').
+  \item Columna izquierda: cuerpo. Si el bloque trae más de un \texttt{Tipo:}, se parte. Un bloque que cumple \texttt{es\_inicio\_ficha} abre ficha nueva, salvo el caso en que la ficha abierta todavía no tiene \texttt{Tipo:} y el trozo es precisamente ese \texttt{Tipo:} (continuación, no ficha nueva).
+\end{itemize}
+
+Inicio de ficha: línea que empieza por \texttt{Tipo:} o \texttt{Código:}; ``caso nuevo'' / ``caso reactivado''; ``Caso n$^\circ$ $k$''; en modo numerado, \texttt{$k$. texto} que no sea \texttt{$k.k$} (secciones).
+
+Al cerrar: se llama \texttt{parsear\_ficha}. Se descarta si el cuerpo es un badge, si tiene $<12$ caracteres, si el ``caso'' empieza por ``defensoría del pueblo'', o si no hay caso/tipo/código y el cuerpo es corto.
+
+\subsection{Paso 3b. Fichas en texto corrido}
+
+Para 2004--2008. Se parte el flujo de líneas por: títulos de estado, nombres de departamento, números de caso (\texttt{$k$.} o \texttt{$k$. texto}), o inicio de ficha. Se ignoran títulos corridos (Anexo, Descripción de los conflictos, Conflictos activos/latentes/resueltos, Nuevos casos, \ldots). El cuerpo se manda al mismo \texttt{parsear\_ficha}.
+
+\subsection{Paso 4. Campos (\texttt{parsear\_ficha})}
+
+Preproceso: inserta saltos de línea \emph{antes} de etiquetas que el PDF pegó en la misma línea (\texttt{tipo:}, \texttt{ubicación:}, actores primarios/secundarios/terciarios, \texttt{ingresó como}, \texttt{código}, y \texttt{caso:} cuando no va precedido de ``como ''). Criterio: las etiquetas se anclan al \textbf{inicio de línea} (\texttt{\^{}label}), para no capturar ``como caso nuevo'' como campo Caso.
+
+Campos, en orden, con lookahead hasta la siguiente etiqueta:
+
+\texttt{tipo}, \texttt{codigo}, \texttt{ingreso\_como}, \texttt{caso}, \texttt{ubicacion}, \texttt{actores\_primarios/secundarios/terciarios}, \texttt{actores} (si no hay primarios; o \texttt{autoridad} en maquetas 2004), \texttt{ubicacion} de \texttt{población} si faltaba, \texttt{caso} de \texttt{motivo}/\texttt{cuestionamiento} si faltaba, \texttt{hechos} (columna derecha, o campo Hechos/Antecedentes).
+
+Si aún no hay caso: primer párrafo $>40$ caracteres que no empiece por tipo/codigo. Tipo se recorta a 160 caracteres y se corta si aparece ``ingres'' (etiqueta pegada). Numeración inicial \texttt{$k$.} se quita del caso.
+
+Basura posterior (\texttt{\_es\_basura}): casos que empiezan por ``y fecha de inicio'', ``ultimos acontecimientos'', ``ubicacion autoridad'', ``motivo y fecha''; o filas sin caso, tipo ni código.
+
+\subsection{Paso 5. Banderas de minería (\texttt{flags.py}), no filtro}
+
+No se borra nada. Sobre un blob plegado (tipo + código + caso + ubicación + actores + texto crudo):
+
+\begin{itemize}
+  \item \texttt{es\_socioambiental}: el \texttt{tipo} contiene ``socioambiental'' / ``socio ambiental''.
+  \item \texttt{menciona\_mineria}: palabra completa de un léxico (mina/minero/minería, concesión minera, tajo, relave, campamento/unidad/proyecto/exploración minera, hidrocarburo, petróleo, Camisea, gasoducto, Dorato, Antamina, Yanacocha, Las Bambas, Southern, Chinalco, Barrick). Si no hay match, se prueba metales como palabra completa: oro, cobre, zinc, plata ---con el comentario explícito de no marcar ``foro'' ni ``plataforma''.
+\end{itemize}
+
+Criterio de uso, escrito en el resumen de corrida: filtrar \texttt{es\_socioambiental=1} y/o \texttt{menciona\_mineria=1}; el resto queda en el panel.
+
+Departamento vacío se completa buscando el nombre canónico (los más largos primero) en ubicación + caso.
+
+\subsection{Paso 6. Identidad (\texttt{identidad.py})}
+
+\begin{itemize}
+  \item Estandariza: NFKD sin diacríticos, minúsculas, solo \texttt{[a-z0-9]} y espacios, quita stopwords españolas (el, la, de, del, y, en, \ldots).
+  \item Agrupa \textbf{dentro de cada departamento} (no $n^2$ nacional). Umbral \texttt{token\_sort\_ratio} \textbf{88} (\texttt{rapidfuzz}; si no está, \texttt{difflib}).
+  \item Textos vacíos reciben id propio.
+  \item Escribe \texttt{caso\_id} y \texttt{caso\_estandarizado}.
+\end{itemize}
+
+Salidas: \texttt{panel\_caso\_mes.csv} (una fila = un caso en un mes), \texttt{casos\_unicos.csv} (un id, con $n$ meses y las banderas OR a lo largo del tiempo), \texttt{fallos.csv}, \texttt{RESUMEN.txt}.
+
+Corrida documentada: 269 PDF, 35\,195 filas, 35\,118 con campo caso, 4\,337 ids fuzzy, 20\,104 socioambientales, 20\,173 con mención de minería, 17\,326 con ambas banderas, 0 PDF a cero fichas.
+
+Limitación explícita del extractor (no ocultada): desde $\approx$2018 el detalle a veces lista solo activos con hechos del mes; latentes en tablas compactas sin \texttt{Tipo:} no salen como filas.
+
+%----------------------------------------------------------------------
+\section{Criterios, lado a lado}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
+\toprule
+\textbf{Decisión} & \textbf{Drive (CSV Minería)} & \textbf{Local (\texttt{defensoria\_extract})} \\
+\midrule
+Unidad de análisis & 83 casos mineros curados; panel solo de esos grupos & Todos los conflictos; minería = bandera \\
+PDF & 251 (hasta n.$^\circ$~251, ene 2025) & 269 mensuales (hasta n.$^\circ$~269, jul 2026) \\
+Lectura & Recorte + iLovePDF $\to$ Excel/Word & PyMuPDF, bloques con \texttt{bbox} \\
+Dónde está el detalle & Frases literales del índice, reescritas por periodo & Detector de página con guardas (sumilla, consolidado) \\
+Estado & Carpeta del recorte (impuesto al concatenar) & Título de sección visto en el PDF \\
+Dos columnas & Primera/última celda del Excel convertido & $x$ medio menor o mayor que 300 \\
+Ficha que cruza página & Frágil (el recorte parte el PDF) & Estado persistente entre páginas \\
+Etiquetas & \texttt{startswith} + regex sobre celda concatenada; anclaje débil & Regex anclada a inicio de línea; lookahead a la siguiente etiqueta \\
+Identidad & Fuzzy nacional, umbral 90, tildes conservadas & Fuzzy por departamento, umbral 88, sin tildes ni stopwords \\
+Minería & Lista cerrada de minas/pueblos + etiqueta manual \texttt{EsMinera} & Léxico + tipo socioambiental; no se borra el resto \\
+Reproducibilidad & Rutas de un PC (\texttt{C:\textbackslash Users\textbackslash Rofer\textbackslash \ldots}), 498 celdas, iLovePDF & CLI único, rutas en \texttt{rutas.py} \\
+Control de calidad & Word de fallos conocidos; Excel 32\,767 & \texttt{fallos.csv}; 0 PDF vacíos; inventario de formatos \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Criterios de inclusión del CSV de Drive (los 83)}
+
+Un grupo entra al CSV de Minería si, después del fuzzy, su texto estandarizado contiene al menos una palabra de la lista de unidades/compañías/pueblos, y luego se confirma \texttt{EsMinera=Sí}. Eso sesga el universo hacia las minas que el equipo ya tenía en el catálogo (Yanacocha, Antamina, Bambas, Toromocho, Quellaveco, \ldots). Un conflicto minero artesanal o una unidad que no está en la lista no entra, aunque el tipo sea socioambiental.
+
+\subsection{Criterios de inclusión del panel local}
+
+Entra toda ficha que sobreviva a basura y tenga caso, tipo o código (o cuerpo largo). El analista recorta después:
+
+\begin{itemize}
+  \item Socioambiental estricto: \texttt{es\_socioambiental=1} (20\,104 filas).
+  \item Mención minera (incluye hidrocarburos del léxico): \texttt{menciona\_mineria=1} (20\,173).
+  \item Intersección: 17\,326.
+\end{itemize}
+
+No hay equivalencia numérica con 3\,777: aquel número es la historia mensual de 83 grupos ya filtrados; este es el panel completo.
+
+%----------------------------------------------------------------------
+\section{Qué se mejoró y dónde está la ganancia}
+
+\subsection{Se dejó de convertir el PDF}
+
+La ganancia más grande no es un umbral fuzzy. Es no entregar el layout a un conversor. iLovePDF aplana dos columnas en celdas; el parser de Drive tenía que \emph{adivinar} cuál columna era hechos del mes (a veces la última, a veces ``todo menos la última''). PyMuPDF conserva $x$ y $y$: hechos van a la derecha porque están a la derecha.
+
+Eso elimina una familia entera de errores que el Word de anotaciones ya había visto: secciones que no agarran el párrafo, tabulaciones que se comen latentes, ``Actor'' que corta ``directorio''.
+
+\subsection{Un detector de sección en lugar de once tijeras}
+
+Drive mantenía listas de frases de inicio/fin por periodo (y las reescribía cuando el índice pasaba de ``V.\ DETALLE\ldots'' a ``VI.\ DETALLE\ldots''). Localmente hay un detector con varias condiciones y \emph{guardas} para no abrir el detalle en la sumilla. Cuando la Defensoría renumera el capítulo, no hace falta un notebook nuevo: hace falta que alguna de las condiciones siga siendo verdad (y, de hecho, ``detalle de los conflictos sociales activos'' + presencia de \texttt{tipo:} cubre 2009--2026).
+
+Costo consciente: las tablas compactas de latentes sin \texttt{Tipo:} no se vuelven filas. Drive sí las perseguía con recortes específicos; a cambio, fallaba cuando la frase no coincidía.
+
+\subsection{La ficha es un objeto con estado, no una acumulación de filas de Excel}
+
+\texttt{ExtractorPaginas} abre/cierra fichas y sobrevive al salto de página. El parser de Drive acumulaba celdas hasta ver otro \texttt{Tipo} o un departamento; si el conversor partía ``Tipo: Socioambiental'' a mitad, o si el recorte de PDF cortaba la ficha, se generaban filas rotas o se perdía el final.
+
+El anclaje \texttt{\^{}label} evita el falso campo Caso en ``ingresó como caso nuevo'', un error clásico de regex no anclada.
+
+\subsection{Identidad más barata y menos mezclona}
+
+Fuzzy nacional a umbral 90 mezcla casos homónimos de distintos departamentos (Corire vs.\ Racrachaca es el ejemplo que el propio equipo anotó). Bloquear por departamento reduce comparaciones y ese tipo de colisión. Bajar a 88, quitar tildes y stopwords compensa la redacción mes a mes (``el caso de la comunidad \ldots'' vs.\ ``comunidad \ldots'') sin exigir que el texto sea casi idéntico.
+
+No es un clustering perfecto: dos conflictos distintos en el mismo departamento con nombres parecidos pueden colapsar. El criterio es explícito y el \texttt{caso\_estandarizado} queda en el CSV para auditar.
+
+\subsection{Minería como bandera}
+
+El CSV de Drive es útil para un tablero de \emph{las} minas del proyecto (83 historias). Es un mal insumo si la pregunta es ``cuántos conflictos socioambientales hay en el reporte $t$''. El panel local no decide la pregunta por el usuario: deja 35\,195 filas y dos bits.
+
+El léxico local es más abierto que la lista de unidades (cualquier ``minera'', ``relave'', ``tajo''), y más disciplinado en metales (palabra completa). Incluye hidrocarburos (Camisea, gasoducto): si el analista quiere solo metálicos, debe recortar. Drive, al filtrar por nombre de mina grande, casi no tiene ese problema ---y se pierde el resto.
+
+\subsection{Cobertura y operación}
+
+\begin{itemize}
+  \item Dieciocho reportes más (252--269) y el tramo 2004 que el panel minero de Drive ni siquiera usaba (el \texttt{ReporteFechaxConflicto} empieza en la edición 7).
+  \item Un comando, sin pasos manuales de recorte ni de conversión.
+  \item Inventario de formatos reproducible; hardlinks por maqueta en \texttt{pdfs\_por\_formato}.
+  \item 0 PDF mensuales a cero fichas, frente a una lista de huecos fechados en Drive.
+\end{itemize}
+
+\subsection{Lo que Drive hacía mejor (y no se copió a ciegas)}
+
+Conviene no vender el extractor local como reemplazo total del trabajo de Minería.
+
+\begin{itemize}
+  \item Drive \textbf{curó} minas, pueblos y compañías y escribió un resumen legible (\texttt{CasoResumidoChatGPT}). El panel local no geocodifica ni nombra la unidad minera.
+  \item Drive guardaba campos de tránsito que el local no prioriza: motivo de fusión, motivo de pase a latente/inactivo, forma de resolución, diálogo como columna propia (el local deja el badge en \texttt{hechos\_del\_mes}).
+  \item Drive intentó extraer latentes tabulares. El local los declara fuera de alcance cuando no hay \texttt{Tipo:}.
+\end{itemize}
+
+La mejora es de \emph{extracción} (leer el PDF de forma estable y completa). El CSV de 83 sigue siendo un producto de \emph{investigación} (universo minero del grupo, etiquetas manuales). Se pueden cruzar: filtrar el panel local por \texttt{menciona\_mineria} y luego aplicar, si se quiere, el catálogo de minas de Drive.
+
+%----------------------------------------------------------------------
+\section{Números de contraste}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Magnitud} & \textbf{Drive} & \textbf{Local} \\
+\midrule
+PDF en inventario de trabajo & 251 & 269 mensuales (275 en carpeta) \\
+Última edición & 251 (ene 2025) & 269 (jul 2026) \\
+Filas caso $\times$ mes & 3\,777 (solo 83 grupos) & 35\,195 (universo) \\
+Casos únicos & 83 (mineros curados) & 4\,337 (fuzzy) \\
+Activos en el panel & 3\,208 & 32\,567 \\
+Latentes & 508 & 2\,213 \\
+Resueltos & 34 & 402 \\
+PDF distintos en el panel & 244 & 269 \\
+PDF a cero fichas & varios, listados en anotaciones & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Fichas locales por formato: adjuntía 26\,300; infografía 2024--26 2\,893; tabla regiones 2\,604; unidad reporte 1\,743; sumilla 1\,608; lista 2004 47.
+
+%----------------------------------------------------------------------
+\section{Cómo reproducir el panel local}
+
+No hace falta iLovePDF. Con el corpus en \texttt{01\_datos/crudos/pdfs} y el inventario de formatos:
+
+\begin{verbatim}
+python -u 02_codigo/extraer_conflictos.py
+\end{verbatim}
+
+Opciones: \texttt{--max N} (prueba), \texttt{--solo-numero 169}, \texttt{--sin-fuzzy}. Rutas en \texttt{02\_codigo/rutas.py}. Salida en \texttt{01\_datos/procesados/conflictos/}.
+
+El paquete, por archivo:
+
+\begin{itemize}
+  \item \texttt{layout.py} --- bloques, columnas, departamentos, encabezados.
+  \item \texttt{secciones.py} --- inicio/fin de detalle y estado.
+  \item \texttt{fichas.py} --- parseo de campos y el extractor de páginas.
+  \item \texttt{flags.py} --- socioambiental y minería.
+  \item \texttt{identidad.py} --- fuzzy por departamento.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section{Fuentes usadas para reconstruir el método Drive}
+
+No se adivinó el pipeline de Minería: se leyeron los archivos vigentes en Drive.
+
+\begin{itemize}
+  \item \texttt{Procesamiento 2004 - 2025.ipynb} --- recorte, parsers por periodo.
+  \item \texttt{Unificación.ipynb} --- rename/concat; escribe \texttt{ConflictosTotales2024\_2025.xlsx}.
+  \item \texttt{Fuzzy.ipynb} --- umbral 90, \texttt{FuzzyCompletar.xlsx}.
+  \item \texttt{Casos\_Filtrados\_Actualizado.ipynb} --- lista de minas/pueblos.
+  \item \texttt{Anotaciones - Detalles a mejorar.docx} --- fallos conocidos.
+  \item \texttt{conflictos\_sociales\_pdfs.csv}, \texttt{Conflicto.csv}, \texttt{ReporteFechaxConflicto.csv}.
+  \item \texttt{01\_Datos/DICCIONARIO\_DATOS.md}: \texttt{conflictos\_data.json} se describe como base de conflictos mineros $\approx$ oct 2014--set 2024, cruzada con OCMAL; es otro producto, posterior al parseo de PDF.
+\end{itemize}
+
+Enlace de la carpeta Minería: \url{https://drive.google.com/drive/folders/1NfRO7wAfOVF6dasoElMsV8srW-7ThSh9}
+
+\section{Cierre}
+
+El CSV de la carpeta Minería es el resultado de recortar PDF por rúbricas del índice, convertirlos a Excel, parsear cada ventana 2004--2025 con un código distinto, unificar columnas a mano, agrupar textos a umbral 90 y quedarse con 83 casos que coincidían con el catálogo de minas del proyecto.
+
+El extractor local hace la misma lectura de fondo ---fichas de la Defensoría, mes a mes--- pero sobre el PDF nativo, con geometría, un solo modelo de ficha, identidad acotada por departamento y banderas en lugar de un filtro que tira el universo. Eso es la optimización: menos conversiones, menos parsers-por-periodo, más filas auditables, y la decisión de ``qué es minería'' aplazada al análisis.
+
+\end{document}

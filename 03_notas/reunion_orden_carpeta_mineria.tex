@@ -1,0 +1,116 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\geometry{margin=2.2cm}
+\setstretch{1.12}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.25em,topsep=0.35em}
+
+\definecolor{upnavy}{HTML}{1F3A5F}
+\hypersetup{colorlinks=true,urlcolor=upnavy,linkcolor=upnavy}
+\titleformat{\section}{\large\bfseries\color{upnavy}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{upnavy}}{\thesubsection.}{0.5em}{}
+
+\title{Cómo quedó ordenada la carpeta Minería}
+\author{Johao Rafael Mendoza Fabián\\Universidad del Pacífico}
+\date{Agosto 2026}
+
+\begin{document}
+\maketitle
+\vspace{-1.2em}
+
+\begin{center}
+\textit{Nota para la reunión: qué había, cómo lo organicé y cómo se usa ahora.}
+\end{center}
+
+\section{En una frase}
+
+La carpeta ya no es un depósito de archivos mezclados. Quedó armada como un archivo de investigación: primero se entiende el proyecto, después están los datos, el código, los resultados y, al final, lo que no hay que tocar para el trabajo del día a día.
+
+Disco: \texttt{Johao\_asistente} $\rightarrow$ carpeta \textbf{Minería}.
+
+\section{Qué problema había}
+
+Todo estaba en la raíz o en carpetas con nombres poco claros. En el mismo sitio convivían la bitácora, JSON, Excel, Word, notebooks, papers, una segunda entrega y copias. Había duplicados (los PDF de la Defensoría, series NDVI/NDWI, el notebook de indicadores). Un compañero nuevo no sabía por dónde empezar ni qué archivo era el vigente.
+
+\section{La lógica del orden}
+
+Numeré las carpetas para que Drive las muestre de arriba hacia abajo, en el orden en que uno debería leerlas:
+
+\begin{center}
+\begin{tabular}{@{}clp{9.2cm}@{}}
+\toprule
+\textbf{Carpeta} & \textbf{Nombre} & \textbf{Para qué} \\
+\midrule
+00 & Inicio & De qué va el proyecto, bitácora, pendientes y reglas simples. \\
+01 & Datos & Fuentes crudas por un lado; tablas y bases ya armadas por el otro. \\
+02 & Código & Notebooks agrupados por tema (conflictos, satélite, mapas). \\
+03 & Análisis & Mapas en HTML y fichas de minas. \\
+04 & Literatura & Papers y material del seminario. \\
+05 & Entregas & Lo que ya se mandó, sin mezclarlo con lo que se sigue usando. \\
+99 & Archivo & Copias, código viejo y duplicados. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.6em}
+En la raíz de Minería solo quedan esas siete carpetas y un \texttt{LEEME.md}. Ese archivo es la puerta de entrada.
+
+\section{Cómo se separan los datos}
+
+En \texttt{01\_Datos} hay dos cajones a propósito:
+
+\begin{itemize}
+  \item \textbf{Crudos.} Lo que trajimos de afuera y no conviene editar: reportes de la Defensoría del Pueblo, JSON de OCMAL, shapefiles del IGN, PBI y demografía.
+  \item \textbf{Procesados.} Lo que ya está listo para analizar: \texttt{conflictos\_data.json}, la BD de Defensoría, listados de minas e indicadores satelitales (NDVI, NDWI, NDMI).
+\end{itemize}
+
+Si alguien saca una tabla nueva, va a procesados. Los crudos se miran, no se pisan.
+
+\section{Código y resultados}
+
+El código quedó en \texttt{02\_Codigo}, por tema: extracción de conflictos, scraping de OCMAL, índices satelitales, mapas y segmentación de imágenes. Cada carpeta tiene el notebook que se usa ahora.
+
+Los mapas para abrir en el navegador y las fichas (Toromocho, Quellaveco, Antamina) están en \texttt{03\_Analisis}, no mezclados con los PDF de papers. Las lecturas van a \texttt{04\_Literatura}. La segunda entrega (listado Huancayo e imágenes de esa fecha) está guardada en \texttt{05\_Entregas}, como snapshot.
+
+\section{Qué hice con los duplicados}
+
+No borré nada. Lo que estaba repetido ---la segunda pila de PDF de Defensoría, copias de Excel, el notebook viejo de indicadores, las series NDVI/NDWI duplicadas--- pasó a \texttt{99\_Archivo}, con nombres que dicen \texttt{DUPLICADO} cuando hace falta. El archivo vigente se busca en \texttt{01\_Datos} o \texttt{02\_Codigo}.
+
+\section{Documentación para quien llegue después}
+
+En cada carpeta grande hay un README corto, escrito como notas del equipo. En \texttt{00\_Inicio} está además:
+
+\begin{itemize}
+  \item cómo empezar, según si uno quiere datos, código o el estado del avance;
+  \item convenciones de nombres y de dónde guardar cosas nuevas;
+  \item la bitácora y los puntos pendientes.
+\end{itemize}
+
+En \texttt{01\_Datos} hay un diccionario: qué es cada JSON o Excel y para qué se usa. No hace falta conocer el historial del Drive para orientarse.
+
+\section{Qué pedirle al equipo}
+
+\begin{enumerate}
+  \item Entrar por \texttt{LEEME.md} y \texttt{00\_Inicio}.
+  \item No dejar archivos sueltos en la raíz.
+  \item No editar \texttt{crudos}; las salidas nuevas van a \texttt{procesados} o a \texttt{03\_Analisis}.
+  \item Las copias, a \texttt{99\_Archivo}, no al lado del archivo que sí se usa.
+\end{enumerate}
+
+Con eso la carpeta se mantiene sola. El contenido del proyecto no cambió: cambió el mapa para encontrarlo.
+
+\end{document}

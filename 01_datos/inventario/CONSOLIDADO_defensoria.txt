@@ -1,0 +1,43 @@
+CONSOLIDADO — reportes mensuales Defensoría del Pueblo
+Carpeta: C:\Users\USER\OneDrive\Escritorio\2026-2\Asistente\01_datos\crudos\pdfs
+PDF en la carpeta: 271
+Unión de: descarga web + lo que había en Drive y no estaba local.
+Periodo esperado: abril 2004 — julio 2026 (n.º 269).
+X = hay PDF    · = falta
+
+AÑO  ENE FEB MAR ABR MAY JUN JUL AGO SEP OCT NOV DIC
+2004               X   X   X   X   X   X   X   X   X
+2005   X   X   X   X   X   ·   X   X   X   X   X   X
+2006   X   X   X   X   X   X   X   X   X   X   X   X
+2007   X   X   X   X   X   X   X   X   X   X   X   X
+2008   X   X   X   X   X   X   X   X   X   X   X   X
+2009   X   X   X   X   X   X   X   X   X   X   X   X
+2010   X   X   X   X   X   X   X   X   X   X   X   X
+2011   X   X   X   X   X   X   X   X   X   X   X   X
+2012   X   X   X   X   X   X   X   X   X   X   X   X
+2013   X   X   X   X   X   X   X   X   X   X   X   X
+2014   X   X   X   X   X   X   X   X   X   X   X   X
+2015   X   X   X   X   X   X   X   X   X   X   X   X
+2016   X   X   X   X   X   X   X   X   X   X   X   X
+2017   X   X   X   X   X   X   X   X   X   X   X   X
+2018   X   X   X   X   X   X   X   X   X   X   X   X
+2019   X   X   X   X   X   X   X   X   X   X   X   X
+2020   X   X   X   X   X   X   X   X   X   X   X   X
+2021   X   X   X   X   X   X   X   X   X   X   X   X
+2022   X   X   X   X   X   X   X   X   X   X   X   X
+2023   X   X   X   X   X   X   X   X   X   X   X   X
+2024   X   X   X   X   X   X   X   X   X   X   X   X
+2025   X   X   X   X   X   X   X   X   X   X   X   X
+2026   X   X   X   X   X   X   X                    
+
+Meses cubiertos: 267
+Meses faltantes: 1
+
+Faltan (mes/año):
+  2005: junio
+
+Números de reporte presentes: 269 (min 1 / max 269)
+Números 1–269 que no aparecen: 0
+
+Notas:
+  conflictos_sociales35_especial.pdf — reporte especial, no es el mensual de ese mes.

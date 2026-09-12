@@ -1,0 +1,435 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+
+\geometry{margin=2.3cm, top=2.6cm, bottom=2.6cm}
+\setstretch{1.15}
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.28em,topsep=0.4em}
+\setlist[enumerate]{leftmargin=1.4em,itemsep=0.28em,topsep=0.4em}
+
+\definecolor{upnavy}{HTML}{1F3A5F}
+\definecolor{upgray}{HTML}{5A6570}
+\definecolor{upsoft}{HTML}{E8EEF4}
+
+\hypersetup{colorlinks=true,urlcolor=upnavy,linkcolor=upnavy}
+\titleformat{\section}{\large\bfseries\color{upnavy}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{upnavy}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\itshape\color{upnavy}}{\thesubsubsection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{upgray}Pipeline local --- defensoria\_extract}
+\fancyhead[R]{\small\color{upgray}Universidad del Pacífico}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{1.4cm}
+{\color{upnavy}\rule{\textwidth}{1.4pt}}\\[0.7em]
+{\LARGE\bfseries\color{upnavy} El pipeline local:}\\[0.35em]
+{\LARGE\bfseries\color{upnavy} de PDF a un panel caso $\times$ mes}\\[0.7em]
+{\Large Extractor \texttt{defensoria\_extract}\\[0.2em]
+(directorio Asistente)}\\[0.7em]
+{\color{upnavy}\rule{\textwidth}{1.4pt}}\\[1.3em]
+{\large Universo de conflictos de la Defensoría,\\[0.2em]
+identidad por embeddings y capas de mejora}\\[2em]
+
+\begin{flushleft}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}l@{\hspace{1.2em}}l@{}}
+\textbf{Proyecto} & Minería, conflictos sociales e indicadores territoriales \\
+\textbf{Institución} & Universidad del Pacífico \\
+\textbf{Fuente} & Reportes mensuales de conflictos sociales, Defensoría del Pueblo \\
+\textbf{Código} & \texttt{02\_codigo/extraer\_conflictos.py} + \texttt{defensoria\_extract/} \\
+\textbf{Salidas} & \texttt{panel\_caso\_mes.csv}; \texttt{casos\_unicos.csv} \\
+\textbf{Cobertura} & 269 ediciones (n.$^\circ$~1--269, abril 2004 -- julio 2026) \\
+\textbf{Identidad} & Embeddings (umbral 0{,}90); fuzzy opcional \\
+\textbf{Fecha de esta nota} & Septiembre 2026 \\
+\end{tabular}
+\end{flushleft}
+
+\vfill
+\begin{flushleft}
+\color{upgray}\small
+Bitácora del pipeline \emph{nuevo}: cómo se lee el PDF nativo, cómo se arma el universo, cómo funciona la identidad por embeddings y qué se puede mejorar a mano o con Gemini. No es un paper y no se compiló a propósito; vive en \texttt{04\_docs}. El pipeline viejo de Drive está en \texttt{pipeline\_drive\_conflictos.tex}; el contraste largo, en \texttt{metodologia\_extraccion\_conflictos.tex}.
+\end{flushleft}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------
+\section{En una frase}
+
+El producto del extractor local es el \textbf{universo}: todas las fichas que se pueden leer de los reportes mensuales, mes a mes, con minería como \emph{bandera} y no como filtro que borra el resto. Encima se pueden construir recortes (solo socioambiental, solo mención minera, catálogo de minas del proyecto), resúmenes con Gemini y tablas curadas. La extracción no decide por el analista qué conflictos ``cuentan''.
+
+Corrida de referencia: 269 PDF, del orden de 35\,000 filas caso $\times$ mes, $\approx$4\,000 \texttt{caso\_id} con embeddings a umbral 0{,}90. Falta solo el PDF de junio 2005.
+
+%----------------------------------------------------------------------
+\section{Flujograma actual del proyecto}
+
+Diagrama del flujo vigente (directorio Asistente). El núcleo es determinista; Gemini, el notebook y la QA son capas opcionales encima del panel. Las cajas rellenas son el flujo principal; las blancas, lo opcional.
+
+\begin{center}
+\begin{tikzpicture}[
+  font=\footnotesize,
+  node distance=0.38cm and 0.9cm,
+  box/.style={draw=upnavy, rounded corners=2pt, align=center, inner sep=5pt,
+              fill=upsoft, text=upnavy, text width=8.4cm, minimum height=0.58cm},
+  sub/.style={draw=upnavy, rounded corners=2pt, align=left, inner sep=5pt,
+              fill=white, text=upnavy, text width=8.4cm, minimum height=0.55cm},
+  opt/.style={draw=upgray, rounded corners=2pt, align=center, inner sep=4pt,
+              fill=white, text=upnavy, text width=3.5cm, minimum height=0.62cm},
+  arr/.style={-{Latex}, thick, color=upnavy},
+  arro/.style={-{Latex}, thick, color=upgray, dashed},
+  stage/.style={draw=upgray!60, rounded corners=3pt, inner sep=6pt, fill=upsoft!35}
+]
+% ----- A. Corpus -----
+\node[box] (a1) {A1.\ Descarga web (\texttt{descargar\_reportes\_defensoria.py})};
+\node[box, below=of a1] (a2) {A2.\ Completar faltantes desde Drive (\texttt{completar\_faltantes\ldots})};
+\node[box, below=of a2] (a3) {A3.\ Consolidar en \texttt{01\_datos/crudos/pdfs} (269 mensuales; falta jun.\ 2005)};
+
+% ----- B. Inventario -----
+\node[box, below=0.55cm of a3] (b1) {B1.\ Fechas: n.$^\circ$, mes, año desde portada (\texttt{extraer\_fechas\_reportes.py})};
+\node[box, below=of b1] (b2) {B2.\ Formato de maqueta: 6 tipos + especial (\texttt{clasificar\_formatos\_pdf.py})};
+\node[sub, below=of b2] (b3) {B3.\ Decide modo de lectura: texto corrido (2004--08) o dos columnas (2008--26)};
+
+% ----- C. Extracción -----
+\node[box, below=0.55cm of b3] (c1) {C1.\ CLI: \texttt{python -u 02\_codigo/extraer\_conflictos.py}};
+\node[sub, below=of c1] (c2) {C2.\ \texttt{layout.py} --- PyMuPDF: bloques con $(x,y)$; columna L/R según $x$ medio};
+\node[sub, below=of c2] (c3) {C3.\ \texttt{secciones.py} --- inicio/fin del detalle; estado Activo/Latente/\ldots};
+\node[sub, below=of c3] (c4) {C4.\ \texttt{fichas.py} --- abre/cierra ficha (puede cruzar página); parsea Tipo/Caso/\ldots};
+\node[sub, below=of c4] (c5) {C5.\ Limpieza de basura de maquetación; completa departamento si falta};
+
+% ----- D. Banderas + identidad -----
+\node[box, below=0.55cm of c5] (d1) {D1.\ \texttt{flags.py} --- \texttt{es\_socioambiental}, \texttt{menciona\_mineria} (no borra filas)};
+\node[sub, below=of d1] (d2) {D2.\ Embeddings: estandarizar texto $\rightarrow$ vector MiniLM multilingual};
+\node[sub, below=of d2] (d3) {D3.\ Clustering por departamento, umbral coseno 0{,}90 $\rightarrow$ \texttt{caso\_id}};
+\node[sub, below=of d3] (d4) {D4.\ (Alt.) \texttt{--identidad fuzzy}: rapidfuzz umbral 88, también por depto.};
+
+% ----- E. Producto -----
+\node[box, below=0.55cm of d4] (e1) {E1.\ \texttt{panel\_caso\_mes.csv} --- una fila = un caso en un mes ($\sim$35\,000)};
+\node[box, below=of e1] (e2) {E2.\ \texttt{casos\_unicos.csv} --- un \texttt{caso\_id} + \texttt{n\_meses} ($\sim$4\,000)};
+\node[box, below=of e2] (e3) {E3.\ \texttt{fallos.csv} + \texttt{RESUMEN.txt}};
+
+\draw[arr] (a1) -- (a2);
+\draw[arr] (a2) -- (a3);
+\draw[arr] (a3) -- (b1);
+\draw[arr] (b1) -- (b2);
+\draw[arr] (b2) -- (b3);
+\draw[arr] (b3) -- (c1);
+\draw[arr] (c1) -- (c2);
+\draw[arr] (c2) -- (c3);
+\draw[arr] (c3) -- (c4);
+\draw[arr] (c4) -- (c5);
+\draw[arr] (c5) -- (d1);
+\draw[arr] (d1) -- (d2);
+\draw[arr] (d2) -- (d3);
+\draw[arr] (d3) -- (d4);
+\draw[arr] (d4) -- (e1);
+\draw[arr] (e1) -- (e2);
+\draw[arr] (e2) -- (e3);
+
+% Marcos de etapa (detrás)
+\begin{scope}[on background layer]
+  \node[stage, fit=(a1)(a2)(a3), label={[font=\scriptsize\bfseries\color{upnavy}]above left:A.\ Corpus}] {};
+  \node[stage, fit=(b1)(b2)(b3), label={[font=\scriptsize\bfseries\color{upnavy}]above left:B.\ Inventario}] {};
+  \node[stage, fit=(c1)(c2)(c3)(c4)(c5), label={[font=\scriptsize\bfseries\color{upnavy}]above left:C.\ Extracción}] {};
+  \node[stage, fit=(d1)(d2)(d3)(d4), label={[font=\scriptsize\bfseries\color{upnavy}]above left:D.\ Banderas e identidad}] {};
+  \node[stage, fit=(e1)(e2)(e3), label={[font=\scriptsize\bfseries\color{upnavy}]above left:E.\ Producto}] {};
+\end{scope}
+
+% ----- F. Opcional (derecha de E) -----
+\node[opt, right=1.15cm of e1] (f1) {F1.\ Notebook\\leer panel};
+\node[opt, below=0.35cm of f1] (f2) {F2.\ Gemini\\(Vertex o API key)};
+\node[opt, below=0.35cm of f2] (f3) {F3.\ Muestra dorada\\+ \texttt{evaluar\_extraccion}};
+\node[opt, below=0.35cm of f3] (f4) {F4.\ \texttt{comparar\_identidad}};
+\node[opt, below=0.35cm of f4] (f5) {F5.\ Cruce Drive 83\\\texttt{recrear\_tabla\ldots}};
+
+\draw[arro] (e1.east) -- (f1.west);
+\draw[arro] (e1.east) |- (f2.west);
+\draw[arro] (e2.east) |- (f3.west);
+\draw[arro] (e2.east) |- (f4.west);
+\draw[arro] (e3.east) |- (f5.west);
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\small\color{upgray}
+Relleno = paso del núcleo.\quad
+Borde blanco = detalle interno o capa opcional.\quad
+Flecha punteada = no modifica el panel crudo.
+\end{center}
+
+\subsection{Lectura del diagrama}
+
+\begin{enumerate}
+  \item \textbf{A. Corpus.} Unir descarga web y PDF de Drive en una sola carpeta; excluir especiales y mal nombrados.
+  \item \textbf{B. Inventario.} Fechas y etiqueta de maqueta; eso fija si se parsea en columnas o en texto corrido.
+  \item \textbf{C. Extracción.} Un CLI; PyMuPDF con geometría; detector de sección; fichas con campos anclados; sin iLovePDF.
+  \item \textbf{D. Banderas e identidad.} Minería como bit; embeddings (default) o fuzzy; \texttt{caso\_id} = cluster por departamento.
+  \item \textbf{E. Producto.} Panel universo, casos únicos, fallos y resumen de corrida.
+  \item \textbf{F. Opcional.} Exploración en notebook; resúmenes Gemini; QA manual; calibrar identidad; cruzar con los 83 de Drive.
+\end{enumerate}
+
+Comando central:
+
+\begin{verbatim}
+python -u 02_codigo/extraer_conflictos.py
+\end{verbatim}
+
+Opciones útiles: \texttt{--max N}, \texttt{--solo-numero 169}, \texttt{--identidad fuzzy}, \texttt{--umbral 0.90}. Rutas en \texttt{02\_codigo/rutas.py}. No hace falta iLovePDF.
+
+%----------------------------------------------------------------------
+\section{Cómo funciona el pipeline}
+
+\subsection{Corpus e inventario}
+
+Los PDF viven en \texttt{01\_datos/crudos/pdfs} (unión de descarga web + lo que había en Drive Minería). Scripts de apoyo: \texttt{descargar\_reportes\_defensoria.py}, \texttt{consolidar\_pdfs\_defensoria.py}, \texttt{completar\_faltantes\_defensoria.py}.
+
+Antes de parsear fichas:
+
+\begin{enumerate}
+  \item \texttt{extraer\_fechas\_reportes.py} --- número de edición, mes y año (portada primero; nombre de archivo de respaldo).
+  \item \texttt{clasificar\_formatos\_pdf.py} --- etiqueta de maqueta por PDF (lista narrativa 2004, tabla por regiones, unidad, sumilla, Adjuntía, infografía 2024--26). Eso decide si la lectura es \textbf{texto corrido} o \textbf{dos columnas}.
+\end{enumerate}
+
+Si hay dos PDF del mismo número, se queda el de más páginas. Se saltan especiales y el archivo mal nombrado.
+
+\subsection{Lectura geométrica del PDF}
+
+Paquete \texttt{defensoria\_extract}, motor \textbf{PyMuPDF} (\texttt{fitz}):
+
+\begin{itemize}
+  \item \texttt{layout.py} --- bloques con bbox $(x_0,y_0,x_1,y_1)$; columna izquierda si el punto medio $x<300$, derecha si no; limpia cabeceras y pies.
+  \item \texttt{secciones.py} --- detector de inicio/fin del detalle de fichas (con guardas para no abrir en la sumilla); estado Activo / Latente / \ldots desde títulos de sección.
+  \item \texttt{fichas.py} --- abre/cierra fichas (pueden cruzar páginas); parsea campos con regex anclada al inicio de línea (\texttt{Tipo:}, \texttt{Caso:}, ubicación, actores, etc.).
+\end{itemize}
+
+Diferencia de método respecto a Drive: no se entrega el layout a un conversor. Hechos del mes van a la derecha porque \emph{están} a la derecha.
+
+Limitación explícita: desde $\approx$2018 los latentes en tablas compactas \textbf{sin} \texttt{Tipo:} no salen como filas.
+
+\subsection{Banderas, no filtro}
+
+\texttt{flags.py} marca sobre el texto de la ficha:
+
+\begin{itemize}
+  \item \texttt{es\_socioambiental} --- el tipo contiene ``socioambiental''.
+  \item \texttt{menciona\_mineria} --- léxico (mina, relave, tajo, unidades conocidas, hidrocarburos del léxico, metales como palabra completa).
+\end{itemize}
+
+Nada se borra. Para análisis minero: filtrar \texttt{es\_socioambiental=1} y/o \texttt{menciona\_mineria=1}.
+
+\subsection{Salidas}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{@{}l Y@{}}
+\toprule
+\textbf{Archivo} & \textbf{Contenido} \\
+\midrule
+\texttt{panel\_caso\_mes.csv} & Una fila = un caso en un mes (estado, depto, tipo, caso, actores, hechos, banderas, formato, página, texto crudo). \\
+\texttt{casos\_unicos.csv} & Una fila = un \texttt{caso\_id} (texto, \texttt{n\_meses}, banderas OR en el tiempo). \\
+\texttt{fallos.csv} & PDF que no abrieron o salieron a cero fichas. \\
+\texttt{RESUMEN.txt} & Conteos por formato y por reporte. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Herramientas del núcleo: PyMuPDF, pandas/csv, rapidfuzz (alternativa), \texttt{sentence-transformers}, scikit-learn, NumPy.
+
+%----------------------------------------------------------------------
+\section{Identidad por embeddings (en detalle)}
+
+Esta es la decisión que más afecta cuántos ``conflictos'' ve el analista. La Defensoría \textbf{reescribe} el mismo caso mes a mes. Sin agrupar, cada redacción distinta sería un caso nuevo. Con agrupar de más, dos conflictos distintos del mismo departamento se vuelven uno.
+
+\subsection{Qué problema resuelve}
+
+El método fuzzy (\texttt{rapidfuzz}, \texttt{token\_sort\_ratio}) compara \emph{cómo está escrito} el texto. Si un año dice ``pobladores de Espinar exigen \ldots Antapaccay'' y otro alarga la ficha con la mesa de 2019, el string ya no se parece lo suficiente y el mismo conflicto se \textbf{fragmenta} en varios \texttt{caso\_id}.
+
+Los \textbf{embeddings} proyectan cada descripción a un vector de significado. Dos redacciones del mismo conflicto quedan cerca aunque cambien las palabras. Eso tolera la reescritura de la Defensoría mejor que el fuzzy puro.
+
+\subsection{Qué es un cluster / \texttt{caso\_id}}
+
+Un \textbf{cluster} es el conjunto de fichas (filas del panel) que el algoritmo trata como el \textbf{mismo conflicto}. Ese montón recibe un solo \texttt{caso\_id}.
+
+Ejemplo: Espinar--Antapaccay, ``cumplimiento de acuerdos de la mesa de 2013'', aparece en decenas de reportes con texto casi igual $\rightarrow$ un cluster (p.\ ej.\ \texttt{caso\_id}=1001) con \texttt{n\_meses} alto. Si en algunos meses la ficha enfatiza otras comunidades o el proyecto Coroccohuayco, puede caer en \textbf{otro} cluster aunque en la realidad sea el mismo conflicto Espinar. Por eso \texttt{n\_meses} cuenta apariciones de \emph{ese} cluster, no un reloj político perfecto.
+
+\subsection{Pasos del algoritmo (\texttt{identidad\_emb.py})}
+
+\begin{enumerate}
+  \item \textbf{Estandarizar} el campo \texttt{caso}: sin tildes, minúsculas, sin stopwords (\texttt{estandarizar} en \texttt{identidad.py}). Queda \texttt{caso\_estandarizado}.
+  \item \textbf{Deduplicar} dentro de cada departamento: la misma descripción repetida muchos meses se codifica \textbf{una sola vez} (se usa el texto más largo como representante).
+  \item \textbf{Codificar} con \texttt{sentence-transformers}, modelo\\
+  \texttt{paraphrase-multilingual-MiniLM-L12-v2} ($\approx$120\,MB, Hugging Face en la primera corrida). Vectores normalizados.
+  \item \textbf{Bloquear por departamento.} Cusco no se compara con Cajamarca. Evita homónimos nacionales y reduce costo.
+  \item \textbf{Clustering aglomerativo} (scikit-learn, métrica coseno, linkage average). Umbral de similitud por defecto \textbf{0{,}90}: se fusionan vectores cuya distancia coseno es $\le 1-0{,}90=0{,}10$.
+  \item Asignar \texttt{caso\_id} entero a cada cluster; filas sin texto reciben id propio.
+\end{enumerate}
+
+Código de referencia: \texttt{02\_codigo/defensoria\_extract/identidad\_emb.py}.
+
+\subsection{Por qué el umbral es 0{,}90}
+
+Se calibró con el conflicto de \textbf{Cenepa} (Amazonas): la Defensoría describe oposición minera de las mismas comunidades frente a \textbf{Afrodita} y frente a \textbf{Dorato Perú}. Por debajo de 0{,}90 el modelo las fusionaba en un solo caso y borraba una distinción que importa para minería. El umbral alto \textbf{prefiere fragmentar} antes que mezclar empresas distintas.
+
+Costo de ese criterio: conflictos muy reescritos (Espinar con varias fichas paralelas) pueden quedar en 2--3 \texttt{caso\_id} en vez de uno. Eso se audita a mano o se corrige después; no se ``arregla'' bajando el umbral a ciegas.
+
+\subsection{Cómo se calibra y se audita}
+
+\texttt{comparar\_identidad.py} no relee PDF. Contrasta el agrupamiento fuzzy contra embeddings a varios umbrales (p.\ ej.\ 0{,}82 / 0{,}86 / 0{,}90) y lista las \textbf{fusiones más grandes} para revisión humana. Salida: \texttt{comparacion\_identidad.txt}.
+
+Regla práctica: un umbral bajo junta de más; uno alto parte de más. La decisión correcta es de contenido (¿misma empresa? ¿mismo pedido?), no de métrica sola.
+
+\subsection{Alternativa fuzzy}
+
+\begin{verbatim}
+python -u 02_codigo/extraer_conflictos.py --identidad fuzzy
+\end{verbatim}
+
+Fuzzy por departamento, umbral 88 (\texttt{identidad.py}). Sigue disponible para comparar o reproducir corridas viejas. El default del proyecto es embeddings.
+
+\subsection{Qué no hace la identidad automática}
+
+\begin{itemize}
+  \item No geocodifica ni nombra la unidad minera.
+  \item No fusiona clusters que el humano ve como el mismo conflicto si los vectores quedaron lejos.
+  \item No separa dos conflictos si el texto es casi idéntico y solo cambia un actor secundario (el umbral 0{,}90 mitiga el caso Afrodita/Dorato, no todos los casos límite).
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section{Cómo mejorar el resultado: trabajo manual y Gemini}
+
+El panel ya es usable para conteos y series. Para un producto de \emph{investigación} más limpio (trayectorias largas sin huecos de id, nombres de mina, resúmenes legibles, precisión medida) hace falta una capa encima. Hay dos vías que se complementan: \textbf{manual} y \textbf{Gemini} (Vertex o API key).
+
+\subsection{Qué sigue siendo manual (alto valor)}
+
+\begin{enumerate}
+  \item \textbf{Muestra dorada.} Generar con \texttt{generar\_muestra\_dorada.py}, anotar columnas \texttt{ok\_*} en el Excel, medir con \texttt{evaluar\_extraccion.py}. Sin eso no se sabe en qué maqueta falla el parseo.
+  \item \textbf{Auditoría de identidad.} Revisar fusiones y fragmentaciones que lista \texttt{comparar\_identidad.py} (y casos largos como Espinar: varios \texttt{caso\_id} para el mismo territorio). Decidir fusiones/excepciones a mano.
+  \item \textbf{Curación minera} (si el entregable es el tablero del proyecto). Sobre \texttt{menciona\_mineria=1}: confirmar mina, compañía, pueblos, ilegal/informal. El catálogo de Drive ayuda; el juicio es humano.
+  \item \textbf{Basura residual.} Filas con caso muy corto, badges \texttt{NUEVO}/\texttt{REACTIVADO}, departamento vacío: borrar, fusionar o re-extraer ese PDF.
+  \item \textbf{Inspección de maqueta 2024--26.} En reportes tardíos cae el número de fichas: ¿diseño Defensoría (solo activos con hechos) o corte del detector? Se confirma abriendo 2--3 PDF.
+  \item \textbf{Junio 2005.} Conseguir el PDF faltante; el código no lo inventa.
+\end{enumerate}
+
+\subsection{Qué aporta Gemini (capa aditiva)}
+
+\texttt{enriquecer\_llm.py} \textbf{no relee PDF} ni cambia el panel. Lee el panel, llama al modelo \textbf{una vez por \texttt{caso\_id}} (no por fila-mes) y escribe \texttt{resumenes\_llm.csv}.
+
+Campos típicos del esquema JSON: resumen (2--3 oraciones), empresa, mineral, comunidades, demanda principal, tipo normalizado, confianza, texto ilegible.
+
+\begin{itemize}
+  \item Autenticación por defecto: \textbf{Vertex AI}, proyecto \texttt{researchassistant01}, ADC (\texttt{gcloud auth application-default login}).
+  \item Alternativa: \textbf{API key} de Gemini Developer API en el \texttt{.env}:
+\end{itemize}
+
+\begin{verbatim}
+GEMINI_AUTH=api_key
+GEMINI_API_KEY=...
+GEMINI_MODELO=gemini-2.5-flash
+\end{verbatim}
+
+(Ver \texttt{.env.ejemplo}.) Modelo por defecto: \texttt{gemini-2.5-flash}. Caché SQLite (\texttt{cache\_llm.sqlite}): repetir la corrida no vuelve a pagar casos ya hechos.
+
+\begin{verbatim}
+python -u 02_codigo/enriquecer_llm.py --limite 8
+python -u 02_codigo/enriquecer_llm.py --solo-mineria
+python -u 02_codigo/enriquecer_llm.py
+\end{verbatim}
+
+El CSV \texttt{casos\_unicos.csv} conserva el texto original. El Excel \texttt{casos\_unicos\_resumen.xlsx} puede usar el resumen de Gemini como columna legible.
+
+\subsection{Dónde Gemini ayuda de verdad}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
+\toprule
+\textbf{Tarea} & \textbf{Gemini} & \textbf{Manual / código} \\
+\midrule
+Resumen legible del caso & Fuerte (una vez por id) & Costoso a escala \\
+Empresa / mineral / comunidades & Útil como propuesta & Validar muestra; no inventar \\
+Unir clusters fragmentados & Posible como sugerencia & Decisión final humana \\
+Parsear latentes sin \texttt{Tipo:} & No sustituye un parser & Código + revisión PDF \\
+Medir precisión de extracción & No & Muestra dorada \\
+Decidir umbral de embeddings & No & \texttt{comparar\_identidad} + ojo \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Reglas del prompt (ya en \texttt{llm/prompts.py}): usar \textbf{solo} el texto entregado; no inventar empresas ni lugares; vacío si no está en el insumo; marcar \texttt{texto\_ilegible} si la ficha es basura.
+
+\subsection{Combinación recomendada}
+
+\begin{enumerate}
+  \item Dejar el panel como fuente de verdad del universo.
+  \item Correr Gemini sobre minería (\texttt{--solo-mineria}) o sobre todos los ids, con Vertex o API key.
+  \item Revisar a mano una muestra de resúmenes (confianza baja / texto ilegible / empresas dudosas).
+  \item Usar la auditoría de identidad + curación de minas para el producto ``tablero del proyecto'', sin pisar el panel crudo.
+\end{enumerate}
+
+En corto: \textbf{embeddings} arman el universo de ids; \textbf{manual} calibra y cura; \textbf{Gemini} redacta y propone campos ---no reemplaza la extracción ni la muestra dorada.
+
+%----------------------------------------------------------------------
+\section{Qué pregunta responde cada producto}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{@{}l Y@{}}
+\toprule
+\textbf{Producto} & \textbf{Pregunta} \\
+\midrule
+\texttt{panel\_caso\_mes.csv} & ¿Qué conflictos reportó la Defensoría en el mes $t$? \\
+Filtro socioambiental / minería & ¿Cuántos de ese tipo hay en $t$ o en el departamento $d$? \\
+\texttt{casos\_unicos} + trayectoria & ¿Cuánto dura este \texttt{caso\_id} en el registro? \\
+\texttt{resumenes\_llm.csv} & ¿Cómo se cuenta el caso en dos oraciones? ¿Qué empresa cita el texto? \\
+Tabla tipo Drive (catálogo) & ¿Cuáles son las historias de \emph{nuestras} minas? \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+El CSV de 83 de Drive responde la última pregunta. El pipeline local responde las primeras; la última se construye encima.
+
+%----------------------------------------------------------------------
+\section{Reproducir}
+
+\begin{verbatim}
+pip install -r requirements.txt
+python -u 02_codigo/extraer_conflictos.py
+python -u 02_codigo/comparar_identidad.py
+python -u 02_codigo/generar_muestra_dorada.py
+python -u 02_codigo/enriquecer_llm.py --solo-mineria
+\end{verbatim}
+
+Paquete por archivo: \texttt{layout.py}, \texttt{secciones.py}, \texttt{fichas.py}, \texttt{flags.py}, \texttt{identidad.py}, \texttt{identidad\_emb.py}. Capa LLM: \texttt{02\_codigo/llm/}.
+
+%----------------------------------------------------------------------
+\section{Cierre}
+
+No se dejó el pipeline de Drive por capricho ni se inventó este por moda. El local prioriza \textbf{leer el PDF con geometría}, \textbf{no borrar el universo} y \textbf{agrupar por significado} (embeddings) con un umbral explícito y auditable. Lo que aún duele ---fragmentación de ids, latentes tabulares, nombres de mina, resúmenes--- se ataca con revisión humana y, donde escala, con Gemini vía Vertex o API key, siempre como capa encima del panel, no como sustituto del extractor.
+
+\end{document}

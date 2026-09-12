@@ -1,0 +1,16 @@
+Control de calidad. No usar estos archivos como panel de análisis.
+
+comparacion_identidad.txt
+  Fuzzy vs embeddings a varios umbrales.
+  Lo escribe comparar_identidad.py.
+
+muestra_dorada.xlsx
+  Muestra estratificada por maqueta, para anotar a mano.
+  La genera generar_muestra_dorada.py; la lee evaluar_extraccion.py.
+
+conflicto_recreado.csv / .xlsx
+  Recreación local de la tabla «Copia de Conflicto (1)» de Drive.
+  Lo escribe recrear_tabla_conflicto.py.
+
+comparacion_conflicto_drive.txt
+  Recall / precisión de esa recreación contra los 83 casos de Drive.

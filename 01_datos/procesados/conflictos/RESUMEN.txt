@@ -1,0 +1,298 @@
+EXTRACCIÓN DE CONFLICTOS — Defensoría del Pueblo
+PDF procesados: 269
+Filas (caso × mes): 41880
+Con campo caso: 41787
+Casos únicos: 2968
+Método de identidad: embeddings (umbral 0.9)
+Socioambientales: 23677
+Mencionan minería: 19817
+PDF sin fichas: 0
+
+Fichas por formato:
+  adjuntia_portada_estadistica: 31818
+  infografia_ciclo_2024: 4079
+  reporte_n_tabla_regiones: 2593
+  unidad_reporte_n: 1735
+  unidad_sumilla: 1608
+  lista_narrativa_2004: 47
+
+Notas:
+- Fichas con Tipo/Caso/Ubicación (o Motivo/Actores en 2004–2007).
+- Latentes en tablas compactas (Adjuntía 2009+ / infografía 2024+) se
+  recuperan del detalle tabular; antes de este arreglo se perdían desde ~2009.
+- Desde el reporte ~248 el detalle de ACTIVOS solo incluye los que
+  'registraron hechos durante el mes'; el resto de activos del mes no
+  tienen ficha completa en el PDF (cambio de la Defensoría, no del extractor).
+- Minería: filtrar es_socioambiental=1 y/o menciona_mineria=1; no se borró el resto.
+- n_meses = meses únicos (anio, mes); n_apariciones = filas del panel.
+
+Por reporte:
+n.1: 47 fichas (47 con caso) abril 2004 - Reporte 01 - Conflictos sociales.pdf
+n.2: 43 fichas (43 con caso) mayo 2004 - Reporte 02 - Conflictos sociales.pdf
+n.4: 57 fichas (57 con caso) final junio 2004 - Reporte 04 - Conflictos sociales.pdf
+n.3: 55 fichas (55 con caso) mitad junio 2004 - Reporte 03 - Conflictos sociales.pdf
+n.5: 60 fichas (60 con caso) julio 2004 - Reporte 05 - Conflictos sociales.pdf
+n.6: 66 fichas (66 con caso) agosto 2004 - Reporte 06 - Conflictos sociales.pdf
+n.7: 75 fichas (75 con caso) setiembre 2004 - Reporte 07 - Conflictos sociales.pdf
+n.8: 86 fichas (86 con caso) octubre 2004 - Reporte 08 - Conflictos sociales.pdf
+n.9: 91 fichas (91 con caso) noviembre 2004 - Reporte 09 - Conflictos sociales.pdf
+n.10: 94 fichas (94 con caso) diciembre 2004 - Reporte 10 - Conflictos sociales.pdf
+n.11: 61 fichas (61 con caso) enero 2005 - conflictos_sociales11.pdf
+n.12: 97 fichas (97 con caso) febrero 2005 - conflictos_sociales12.pdf
+n.13: 66 fichas (66 con caso) marzo 2005 - conflictos_sociales13.pdf
+n.14: 70 fichas (70 con caso) abril 2005 - conflictos_sociales14.pdf
+n.15: 81 fichas (81 con caso) mayo 2005 - conflictos_sociales15.pdf
+n.17: 74 fichas (74 con caso) final julio 2005 - conflictos_sociales17.pdf
+n.16: 75 fichas (75 con caso) mitad julio 2005 - conflictos_sociales16.pdf
+n.18: 75 fichas (75 con caso) agosto 2005 - conflictos_sociales18.pdf
+n.19: 71 fichas (71 con caso) setiembre 2005 - conflictos_sociales19.pdf
+n.20: 69 fichas (69 con caso) octubre 2005 - conflictos_sociales20.pdf
+n.21: 72 fichas (72 con caso) noviembre 2005 - conflictos_sociales21.pdf
+n.22: 74 fichas (74 con caso) diciembre 2005 - conflictos_sociales22.pdf
+n.23: 76 fichas (76 con caso) conflictos_sociales23.pdf
+n.24: 76 fichas (76 con caso) conflictos_sociales24.pdf
+n.25: 82 fichas (82 con caso) conflictos_sociales25.pdf
+n.26: 77 fichas (77 con caso) conflictos_sociales26.pdf
+n.27: 77 fichas (77 con caso) conflictos_sociales27.pdf
+n.28: 86 fichas (86 con caso) conflictos_sociales28.pdf
+n.29: 91 fichas (91 con caso) conflictos_sociales29.pdf
+n.30: 101 fichas (101 con caso) conflictos_sociales30.pdf
+n.31: 98 fichas (98 con caso) conflictos_sociales31.pdf
+n.32: 110 fichas (110 con caso) conflictos_sociales32.pdf
+n.33: 103 fichas (103 con caso) conflictos_sociales33.pdf
+n.34: 104 fichas (104 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-34---Diciembre
+n.35: 99 fichas (99 con caso) conflictos_sociales35.pdf
+n.36: 89 fichas (89 con caso) conflictos_sociales36.pdf
+n.37: 84 fichas (84 con caso) conflictos_sociales37.pdf
+n.38: 88 fichas (88 con caso) conflictos_sociales38.pdf
+n.39: 90 fichas (90 con caso) conflictos_sociales39.pdf
+n.40: 107 fichas (107 con caso) conflictos_sociales40.pdf
+n.41: 185 fichas (185 con caso) conflictos_sociales41.pdf
+n.42: 92 fichas (92 con caso) conflictos_sociales42.pdf
+n.43: 100 fichas (100 con caso) conflictos_sociales43.pdf
+n.44: 132 fichas (132 con caso) conflictos_sociales44-CS.pdf
+n.45: 102 fichas (102 con caso) conflictos_sociales45-CS.pdf
+n.46: 151 fichas (151 con caso) Reporte-46-diciembre-2007.pdf
+n.47: 139 fichas (139 con caso) conflictos_sociales47.pdf
+n.48: 112 fichas (112 con caso) conflictos_sociales48.pdf
+n.49: 165 fichas (165 con caso) conflictos_sociales49.pdf
+n.50: 54 fichas (54 con caso) conflictos_sociales50.pdf
+n.51: 69 fichas (68 con caso) Conflictos-Sociales-51.pdf
+n.52: 89 fichas (88 con caso) conflictos_sociales52.pdf
+n.53: 97 fichas (96 con caso) Conflictos-Reporte-53.pdf
+n.54: 112 fichas (111 con caso) conflictos_sociales54.pdf
+n.55: 128 fichas (127 con caso) reporte-conflictos-55.pdf
+n.56: 131 fichas (130 con caso) reporte-conflictos-56.pdf
+n.57: 137 fichas (135 con caso) reporte-conflictos-57.pdf
+n.58: 136 fichas (134 con caso) conflictos_reporte_58.pdf
+n.59: 144 fichas (142 con caso) reporte_conflictos_59_enero2009.pdf
+n.60: 152 fichas (150 con caso) Conflictos-Sociales-N_-60-Febrero-2009.pdf
+n.61: 170 fichas (168 con caso) conflictos_reporte_61.pdf
+n.62: 189 fichas (187 con caso) conflictos-62.pdf
+n.63: 211 fichas (203 con caso) Reporte-63.pdf
+n.64: 221 fichas (213 con caso) reporte-64.pdf
+n.65: 217 fichas (212 con caso) reporte-65.pdf
+n.66: 227 fichas (222 con caso) reporte-66.pdf
+n.67: 219 fichas (215 con caso) conflictos-67.pdf
+n.68: 210 fichas (207 con caso) Conflictos-Reporte-68.pdf
+n.69: 210 fichas (207 con caso) reporte-69.pdf
+n.70: 179 fichas (177 con caso) reporte-diciembre.pdf
+n.71: 159 fichas (155 con caso) reporte-71.pdf
+n.72: 151 fichas (149 con caso) Conflictos-Reporte72.pdf
+n.73: 155 fichas (151 con caso) Reporte-73.pdf
+n.74: 171 fichas (170 con caso) Reporte-74.pdf
+n.75: 131 fichas (130 con caso) reporte-75-2010.pdf
+n.76: 136 fichas (135 con caso) reporte-76-2010.pdf
+n.77: 135 fichas (134 con caso) reporte-77.pdf
+n.78: 145 fichas (144 con caso) reporte-078.pdf
+n.79: 150 fichas (149 con caso) Conflictos-Sociales-N_-79-Septiembre-2010.pdf
+n.80: 135 fichas (134 con caso) reporte-80.pdf
+n.81: 145 fichas (144 con caso) reporte-81.pdf
+n.82: 139 fichas (138 con caso) reporte-82.pdf
+n.83: 133 fichas (132 con caso) reporte-83.pdf
+n.84: 136 fichas (135 con caso) reporte-84.pdf
+n.85: 128 fichas (127 con caso) reporte_85.pdf
+n.86: 128 fichas (127 con caso) reporte_86.pdf
+n.87: 120 fichas (119 con caso) Reporte-87-mayo-2011.pdf
+n.88: 127 fichas (126 con caso) Reporte-88.pdf
+n.89: 127 fichas (126 con caso) Reporte-89.pdf
+n.90: 116 fichas (116 con caso) Reporte_conflictos_90.pdf
+n.91: 120 fichas (120 con caso) reporte_91_1.pdf
+n.92: 124 fichas (124 con caso) reporte-menusal-92.pdf
+n.93: 121 fichas (121 con caso) Reporte-conflictos-93.pdf
+n.94: 134 fichas (134 con caso) Reporte-de-conflictos-N-94.pdf
+n.95: 121 fichas (121 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-95-Enero-2012.
+n.96: 120 fichas (120 con caso) Reporte-de-Conflictos-Sociales-N-96-Febrero-2012.pdf
+n.97: 121 fichas (121 con caso) Reporte-de-Conflictos-Sociales-N-97-Marzo-2012.pdf
+n.98: 135 fichas (135 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-98-Abril-2012.
+n.99: 137 fichas (137 con caso) Reporte-M.-de-Conflictos-Sociales-N-99-May-2012.pdf
+n.100: 167 fichas (167 con caso) Reporte-de-Mensual-Conflictos-Sociales-N-100-Junio-2012
+n.101: 156 fichas (156 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-101-Julio-12.p
+n.102: 158 fichas (158 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-102-Ago-12.pdf
+n.103: 155 fichas (155 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-103-Sept-2012.
+n.104: 158 fichas (158 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-104-Octu-2012.
+n.105: 158 fichas (158 con caso) Reporte-M.-de-Conflictos-Sociales-N-105-Noviembre-2012.
+n.106: 154 fichas (154 con caso) Reporte-M.-de-Conflictos-Sociales-N-106-Diciembre-2012.
+n.107: 157 fichas (157 con caso) Reporte-M.-de-Conflictos-Sociales-N-107-Ene-2013.pdf
+n.108: 145 fichas (145 con caso) Reporte-M.-de-Conflictos-Sociales-N-108-Feb-2013.pdf
+n.109: 143 fichas (143 con caso) Reporte-M.-de-Conflictos-Sociales-N-109-Mar-2013.pdf
+n.110: 152 fichas (151 con caso) Reporte-M.-de-Conflictos-Sociales-N-110-Abr-2013.pdf
+n.111: 209 fichas (209 con caso) Reporte-M.-de-Conflictos-Sociales-N-111-Mayo2013.pdf
+n.112: 169 fichas (168 con caso) Reporte-M.-de-Conflictos-Sociales-N-112-Junio-2013.pdf
+n.113: 176 fichas (176 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-113-Julio-2013
+n.114: 178 fichas (178 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-114-Agosto-201
+n.115: 169 fichas (169 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-115-Septiembre
+n.116: 171 fichas (171 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-116-Octubre-20
+n.117: 216 fichas (216 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-117-noviembre-
+n.118: 168 fichas (168 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-118-diciembre-
+n.119: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-119-enero-2014
+n.120: 165 fichas (165 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-120-Febrero-20
+n.121: 164 fichas (164 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-121-marzo-2014
+n.122: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-122.pdf
+n.123: 161 fichas (161 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-123-2014.pdf
+n.124: 164 fichas (164 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-124-2014.pdf
+n.125: 205 fichas (205 con caso) Reporte-Mensual-Conflictos-Sociales-125-Julio-2014.pdf
+n.126: 204 fichas (203 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-126-Agosto-201
+n.127: 200 fichas (200 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-127-Septiembre
+n.128: 217 fichas (217 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-128-Octubre-20
+n.129: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-129-Noviembre-
+n.130: 210 fichas (210 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-130-Diciembre-
+n.131: 209 fichas (209 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-131-Enero-2015
+n.132: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-132-Febrero-20
+n.133: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-133-Marzo-2015
+n.134: 208 fichas (208 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-134-Abril-2015
+n.135: 210 fichas (210 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-135-Mayo-2015.
+n.136: 210 fichas (210 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-136-Junio-2015
+n.137: 209 fichas (209 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-137-Julio-2015
+n.138: 213 fichas (213 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-138-Agosto-201
+n.139: 214 fichas (214 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-139-Septiembre
+n.140: 214 fichas (214 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-140-Octubre-20
+n.141: 215 fichas (215 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-141-Noviembre-
+n.142: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-142-Diciembre-
+n.143: 211 fichas (211 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-143-Enero-2016
+n.144: 208 fichas (208 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-144-Febrero-20
+n.145: 206 fichas (206 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-145-Marzo-2016
+n.146: 209 fichas (209 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-146-Abril-2016
+n.147: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-147-Mayo-2016.
+n.148: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-148-Junio-2016
+n.149: 211 fichas (210 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-149-Julio-2016
+n.150: 209 fichas (208 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-150-Agosto-201
+n.151: 207 fichas (207 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-151-Septiembre
+n.152: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-152---Octubre-
+n.153: 213 fichas (213 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-153-Noviembre-
+n.154: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-154-Diciembre-
+n.155: 214 fichas (214 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-155-Enero-2017
+n.156: 212 fichas (212 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-156-Febrero-20
+n.157: 204 fichas (204 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-157-Marzo-2017
+n.158: 187 fichas (187 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-158-Abril-2017
+n.159: 179 fichas (179 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-159-Mayo-2017.
+n.160: 177 fichas (177 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-160-Junio-2017
+n.161: 177 fichas (177 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-161-Julio-2017
+n.162: 167 fichas (167 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-162-Agosto-201
+n.163: 168 fichas (168 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-163-Septiembre
+n.164: 167 fichas (167 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-164-Octubre-20
+n.165: 171 fichas (171 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-165-Noviembre-
+n.166: 169 fichas (169 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-166-Diciembre-
+n.167: 176 fichas (176 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-167-Enero-2018
+n.168: 182 fichas (182 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-168-Febrero-20
+n.169: 188 fichas (188 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-169-Marzo-2018
+n.170: 195 fichas (195 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-170---Abril-2
+n.171: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-171-Mayo-2018
+n.172: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-172-Junio-2018
+n.173: 197 fichas (197 con caso) Reporte_Mensual_de_Conflictos_Sociales_N_173_-_Julio_20
+n.174: 195 fichas (195 con caso) Conflictos-Sociales-N_-174-Agosto-2018.pdf
+n.175: 202 fichas (202 con caso) Conflictos-Sociales-N_-175-Septiembre-2018.pdf
+n.176: 199 fichas (199 con caso) Conflictos-Sociales-N_-176-Octubre-2018.pdf
+n.177: 194 fichas (194 con caso) Conflictos_Sociales_N_177_-_Noviembre_2018.pdf
+n.178: 181 fichas (181 con caso) Conflictos-Sociales-N_-178-Diciembre-2018.pdf
+n.179: 180 fichas (180 con caso) Conflictos-Sociales-N_-179-Enero-2019.pdf
+n.180: 179 fichas (179 con caso) Conflictos-Sociales-N_-180-Febrero-2018.pdf
+n.181: 183 fichas (183 con caso) Conflictos-Sociales-N_-181-Marzo-2019.pdf
+n.182: 184 fichas (184 con caso) Conflictos-Sociales-N_-182-Abril-2019.pdf
+n.183: 177 fichas (177 con caso) Conflictos-Sociales-N_-183-Mayo-2019.pdf
+n.184: 178 fichas (178 con caso) Conflictos-Sociales-N_-184-Junio-2019.pdf
+n.185: 184 fichas (184 con caso) Conflictos_Sociales_N_185_-_Julio_2019.pdf
+n.186: 187 fichas (187 con caso) Conflictos_Sociales_N_186_-_Agosto_2019.pdf
+n.187: 184 fichas (184 con caso) Conflictos_Sociales_N_187_-_Septiembre_2019.pdf
+n.188: 187 fichas (187 con caso) Conflictos-Sociales-N_-188-Octubre-2019.pdf
+n.189: 185 fichas (185 con caso) Conflictos_Sociales_N_189_-_Noviembre_2019.pdf
+n.190: 183 fichas (183 con caso) Conflictos_Sociales_N_190_-_diciembre_2019.pdf
+n.191: 194 fichas (194 con caso) Conflictos-Sociales-N_-191-Enero-2020.pdf
+n.192: 188 fichas (188 con caso) Reporte_Mensual_de_Conflictos_Sociales_N_192_-_febrero_
+n.193: 188 fichas (188 con caso) Reporte_Mensual_de_Conflictos_Sociales_N_193_-_marzo_20
+n.194: 188 fichas (188 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-194-abril-202
+n.195: 189 fichas (189 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-195-mayo-2020
+n.196: 190 fichas (190 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-196-junio-202
+n.197: 192 fichas (192 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-197-julio-202
+n.198: 190 fichas (190 con caso) Reporte_Mensual_de_Conflictos_Sociales_N_198_-_agosto_2
+n.199: 191 fichas (191 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-199-septiembr
+n.200: 191 fichas (191 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-200-octubre-2
+n.201: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-201-noviembre
+n.202: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-202-diciembre
+n.203: 196 fichas (196 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-203-enero-202
+n.204: 197 fichas (197 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-204-febrero-2
+n.205: 194 fichas (194 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-205-marzo-202
+n.206: 191 fichas (191 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-206-abril-202
+n.207: 192 fichas (192 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-207-Mayo-2021
+n.208: 194 fichas (194 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-208-junio-202
+n.209: 197 fichas (197 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-209-julio-202
+n.210: 197 fichas (197 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-210-agosto-20
+n.211: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-211-setiembre
+n.212: 198 fichas (198 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-212-octubre-
+n.213: 160 fichas (160 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-213-noviembre
+n.214: 161 fichas (161 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-214-_-diciem
+n.215: 165 fichas (165 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-215-Enero-202
+n.216: 168 fichas (168 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-216-Febrero-2
+n.217: 173 fichas (173 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-217-Marzo-202
+n.218: 173 fichas (173 con caso) Reporte-Mensual-de-Conflictos-Sociales-n.o-218-_-abril-
+n.219: 164 fichas (164 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-219-Mayo-2022
+n.220: 165 fichas (165 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-220-Junio-202
+n.221: 165 fichas (165 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-221-julio-20
+n.222: 162 fichas (162 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-222-Agosto-20
+n.223: 165 fichas (165 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-223-Setiembre
+n.224: 173 fichas (173 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-224-Octubre-2
+n.225: 175 fichas (175 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-225-Noviembre
+n.226: 174 fichas (174 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-226-diciembr
+n.227: 172 fichas (172 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-227-Enero-202
+n.228: 172 fichas (172 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-228-Febrero-2
+n.229: 176 fichas (176 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-229-Marzo-2023
+n.230: 180 fichas (180 con caso) Reporte-Mensual-de-Conflictos-Sociales-N230_Abril-2023.
+n.231: 182 fichas (182 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-231-mayo-2023
+n.232: 220 fichas (220 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-232-Junio-202
+n.233: 226 fichas (226 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-233-Julio-202
+n.234: 225 fichas (225 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-234-Agosto-20
+n.235: 188 fichas (188 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-235-Setiembre
+n.236: 225 fichas (225 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-236-Octubre-2
+n.237: 220 fichas (220 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-237-Noviembre
+n.238: 216 fichas (216 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-238-Diciembre
+n.239: 217 fichas (217 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-239-Enero-202
+n.240: 208 fichas (208 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-240-Febrero-
+n.241: 176 fichas (176 con caso) n241_ReporteConflictos_marzo2024.pdf
+n.242: 176 fichas (176 con caso) ReporteDeConflictos_abril24.pdf
+n.243: 172 fichas (172 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-243-Mayo-202
+n.244: 170 fichas (170 con caso) Reporte-Mensual-de-Conflictos-Sociales-n._-244-Junio_20
+n.245: 209 fichas (209 con caso) Reporte-de-Conflictos-Sociales-n._-245-julio-2024.pdf
+n.246: 206 fichas (206 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-246-Agosto_20
+n.247: 207 fichas (207 con caso) Conflictos Sociales No 247 - setiembre 2024.pdf
+n.248: 102 fichas (102 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-248-Octubre_2
+n.249: 98 fichas (98 con caso) Reporte-Conflictos-Sociales-249-Noviembre-2024.pdf
+n.250: 102 fichas (102 con caso) Reporte-Conflictos-Sociales-250-Diciembre-2024.pdf
+n.251: 115 fichas (115 con caso) Reporte-Mensual-de-Conflictos-Sociales-N-251-Enero-2025
+n.252: 97 fichas (97 con caso) RCS-N-252-Feb-2025.pdf
+n.253: 101 fichas (101 con caso) 3.-Reporte-Mensual-de-Conflictos-Sociales-N_-253-Mar_20
+n.254: 107 fichas (107 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-254-Abr_2025.
+n.255: 98 fichas (98 con caso) Reporte-de-conflictos-sociales-n.o-255-_-mayo-2025.pdf
+n.256: 112 fichas (112 con caso) Reporte-de-conflictos-sociales-n.o-256-_-junio-2025.pdf
+n.257: 112 fichas (112 con caso) Reporte-de-conflictos-sociales-n.o-257-_-julio-2025.pdf
+n.258: 114 fichas (114 con caso) Reporte-de-conflictos-sociales-n.o-258-_-agosto-2025.pd
+n.259: 112 fichas (112 con caso) Reporte-de-Conflictos-Sociales-N_-259.pdf
+n.260: 115 fichas (115 con caso) Reporte-Mensual-de-Conflictos-Sociales-N_-260-Oct_2025.
+n.261: 115 fichas (115 con caso) Reporte-Conflictos-Sociales-N-261-Noviembre-2025.pdf
+n.262: 113 fichas (113 con caso) Reporte-de-conflictos-sociales-n.o-262-_-diciembre-2025
+n.263: 108 fichas (108 con caso) Reporte-Conflictos-Sociales-N-263-Enero-2026.pdf
+n.264: 105 fichas (105 con caso) Reporte-de-Conflictos-Sociales-n-264-febrero-26.pdf
+n.265: 91 fichas (91 con caso) Reporte-de-Conflictos-Sociales-n-265-VF.pdf
+n.266: 92 fichas (92 con caso) Reporte-de-Conflictos-Sociales-n-266-VF.pdf
+n.267: 98 fichas (98 con caso) Reporte-de-Conflictos-Sociales-n-267-VF.pdf
+n.268: 116 fichas (116 con caso) Reporte-de-Conflictos-Sociales-n-268.pdf
+n.269: 115 fichas (109 con caso) Reporte-de-Conflictos-Sociales-n-269.pdf

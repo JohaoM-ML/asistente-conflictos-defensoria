@@ -1,0 +1,46 @@
+Calendario de reportes mensuales de conflictos sociales
+Periodo esperado: abril 2004 — julio 2026 (último publicado n.º 269).
+Marca: D = solo Drive | N = solo descarga nueva | DN = en los dos | · = falta
+
+AÑO  ENE FEB MAR ABR MAY JUN JUL AGO SEP OCT NOV DIC
+2004               D   D   D   D   D   D   D   D   D
+2005   D   D   D   D   D  ·    D   D   D   D   D   D
+2006   N   N   N   N   N   N   N   N   N   N   N  DN
+2007   N   N   N   N   N   N   N   N   N   N   N   D
+2008   N   N   N   N   N   N   N   N   N   N   N   N
+2009  DN  DN   N   N  ·   ·   ·   ·    N   N  ·   · 
+2010  ·    N  ·   ·   ·   ·   ·   ·   DN  ·   ·   · 
+2011  ·   ·   ·   ·    D  ·   ·    N  ·   ·    N   N
+2012  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2013  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2014  DN  DN  DN   N   N   N  DN  DN  DN  DN  DN  DN
+2015  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2016  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2017  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2018  DN  DN   D  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2019  DN   N  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2020  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2021  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2022  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2023  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN  DN
+2024  DN  DN  DN  DN  DN  DN  DN  DN   D  DN   D  DN
+2025  DN  ·    N   N   N   N   N   N   N   N  ·    N
+2026  ·    N   N   N   N   N   N                    
+
+Meses cubiertos: 240
+Meses faltantes: 28
+
+Faltan:
+  2005: junio
+  2009: mayo, junio, julio, agosto, noviembre, diciembre
+  2010: enero, marzo, abril, mayo, junio, julio, agosto, octubre, noviembre, diciembre
+  2011: enero, febrero, marzo, abril, junio, julio, septiembre, octubre
+  2025: febrero, noviembre
+  2026: enero
+
+Lectura dentro del PDF (descarga nueva):
+  fecha leída de la portada: 217
+  solo del nombre de archivo: 0
+  sin fecha: 1
+
+Los de Drive sin PDF local se fecharon por el nombre del archivo.

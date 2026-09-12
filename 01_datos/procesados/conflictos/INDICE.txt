@@ -1,0 +1,20 @@
+Productos vigentes del extractor (python -u 02_codigo/extraer_conflictos.py)
+
+Vigente — una fila = un caso en un mes, o un caso único
+  panel_caso_mes.csv.gz       lo que va a GitHub (~28 MB); pandas lo lee
+  panel_caso_mes.csv          local, sin comprimir; no se versiona (~137 MB)
+  casos_unicos.csv            una fila por caso_id (texto original)
+  casos_unicos_resumen.xlsx   igual, con resumen Gemini en la columna caso
+  fallos.csv                  PDF sin fichas o con error
+  RESUMEN.txt                 conteos de la última extracción
+  resumenes_llm.csv           capa Gemini (no toca el panel)
+  cache_llm.sqlite            caché de llamadas; regenerable
+
+Misma tabla, para abrir en Excel (no son otra versión)
+  panel_caso_mes.xlsx
+  casos_unicos.xlsx
+  fallos.xlsx
+
+calidad/
+  Comparaciones, muestra dorada y tabla recreada al estilo Drive.
+  No es el panel. Ver calidad/INDICE.txt.

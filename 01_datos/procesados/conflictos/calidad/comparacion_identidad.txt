@@ -1,0 +1,258 @@
+﻿COMPARACIÓN DE IDENTIDAD DE CASOS
+
+Fuzzy actual (rapidfuzz, umbral 88):
+  casos únicos      : 4521
+  de un solo mes    : 1828 (40.4%)
+  mediana de meses  : 3
+  máximo de meses   : 119
+
+Embeddings (umbral 0.82):
+  casos únicos      : 3711
+  de un solo mes    : 1372 (37.0%)
+  mediana de meses  : 3
+  máximo de meses   : 162
+  fusiones (1 caso nuevo <- varios fuzzy): 551
+
+  Fusiones más grandes (revisar a mano, umbral 0.82):
+    [Loreto] 9 casos fuzzy -> 1
+       - El Alcalde se encuentra con mandato de detención y 3 regidores se encuentran con comparecencia. El 3 de agosto
+       - El Alcalde se encuentra con mandato de detención y tres regidores enfrentan el mandato de comparecencia. El 3 
+
+    [San Martín] 8 casos fuzzy -> 1
+       - Hace tres meses que un grupo de pobladores ha tomado el local municipal para evitar que el alcalde ingrese y e
+       - Huicungo, Provincia de Mariscal Cáceres Carlos Benavides Fernández, Alcalde Distrital Hace tres meses que un g
+       - Desde febrero de este año, un grupo de pobladores, dirigido por el denominado Frente de Juventudes de Huicungo
+       - Desde febrero de este año, un grupo de pobladores ha tomado el local municipal para evitar que el Alcalde ejer
+
+    [Amazonas] 8 casos fuzzy -> 1
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Dorato Perú SAC por 
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita por posible
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita pues señala
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita porque no s
+
+    [Ayacucho] 7 casos fuzzy -> 1
+       - Provincia de Cangallo Oscar Tineo de la Cruz, Alcalde Provincial El Frente de Defensa ha cuestionado al Alcald
+       - Desde abril de 2004, el Frente de Defensa ha cuestionado al Alcalde porque habría iniciado la remodelación del
+       - Provincia de Cangallo Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado des
+       - Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado desde abril de 2004 por e
+
+    [Áncash] 7 casos fuzzy -> 1
+       - Por supuestas irregularidades en el manejo presupuestario, el 4 de diciembre de 2001 los pobladores tomaron el
+       - El 4 de diciembre de 2001, los pobladores tomaron el local municipal y bloquearon las puertas de ingreso, acus
+
+    [Arequipa] 7 casos fuzzy -> 1
+       - Oposición de algunas autoridades locales y un sector de la población de la provincia de Islay al trámite de ex
+       - Agricultores, pobladores y autoridades locales de la provincia de Islay se oponen al proyecto minero Tía María
+       - Agricultores, pobladores y autoridades locales de la provincia de Islay se oponen al proyecto Tía María de la 
+
+    [Áncash] 6 casos fuzzy -> 1
+       - Autoridad: Alcalde de la provincia de Huaylas, Roberto Espejo Ramírez Población: descontento de un sector de l
+       - En abril de 2004, un sector de la población expresó su descontento por la gestión municipal, luego de la difus
+       - En abril de 2004, un medio de comunicación local difundió un audio en el que aparentemente el Alcalde coaccion
+       - Provincia de Huaylas En abril de 2004, un medio de comunicación local difundió un audio en el que aparentement
+
+    [Cajamarca] 6 casos fuzzy -> 1
+       - existe descontento de un sector de la población hacia la gestión del alcalde. Durante el mes de marzo la pobla
+       - Provincia de Cutervo Jorge Luis Paredes Guevara, Alcalde Provincial En marzo, la población descontenta por la 
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, se movilizó en protesta pretendiend
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, pretendió sacarlo del cargo por la 
+
+    [Huánuco] 6 casos fuzzy -> 1
+       - cuestionamiento a elecciones municipales y no ha dejado ingresar al alcalde desde el 2002. Además, cuando esta
+       - Provincia de Yarowillca Abel Soto Ponciano, Alcalde Provincial La población, que cuestiona el resultado de las
+       - La población, que cuestiona el resultado de las elecciones municipales, no ha dejado ingresar al Alcalde desde
+       - La población cuestiona el resultado de las elecciones municipales, y no ha dejado ingresar al Alcalde desde el
+
+    [Puno] 6 casos fuzzy -> 1
+       - cuestionamiento a la gestión municipal por supuesto incumplimiento de promesas electorales e incumplimiento de
+       - Organizaciones sociales encabezadas por la Central de Barrios cuestionan, desde el mes de enero, la gestión mu
+       - Provincia de San Román Miguel Ramos Benique, Alcalde Provincial (MI Moral y Desarrollo) es cuestionado por org
+       - Miguel Ramos Benique, Alcalde Provincial (MI Moral y Desarrollo) es cuestionado por organizaciones sociales en
+
+    [Puno] 6 casos fuzzy -> 1
+       - el 10-11 de mayo tuvo lugar un paro contra acalde. Se tomó el local del municipio, se lacraron las puertas y u
+       - Los días 10 y 11 de mayo se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron las puer
+       - Los días 10 y 11 de mayo de 2004 se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron 
+
+    [La Libertad] 6 casos fuzzy -> 1
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de alumnos y alumnas que exigen la renuncia de
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de estudiantes que exigen la renuncia del Rect
+       - Universidad Nacional de Trujillo El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de estudiante
+
+    [La Libertad] 6 casos fuzzy -> 1
+       - Descontento de un sector de la población por la gestión del Alcalde, por supuesta falta de transparencia en la
+       - Un sector de la población cuestiona la gestión del Alcalde por supuesta falta de transparencia, así como supue
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Distrital Arístides
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Arístides Ovidio Al
+
+    [Amazonas] 6 casos fuzzy -> 1
+       - El 28 de abril, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas, en terr
+       - El 28 de abril de 2004, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas,
+
+    [San Martín] 6 casos fuzzy -> 1
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañados por un representante de la Prefectu
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañada por un representante de la Prefectur
+
+
+Embeddings (umbral 0.86):
+  casos únicos      : 3869
+  de un solo mes    : 1453 (37.6%)
+  mediana de meses  : 3
+  máximo de meses   : 162
+  fusiones (1 caso nuevo <- varios fuzzy): 474
+
+  Fusiones más grandes (revisar a mano, umbral 0.86):
+    [Loreto] 8 casos fuzzy -> 1
+       - El Alcalde se encuentra con mandato de detención y 3 regidores se encuentran con comparecencia. El 3 de agosto
+       - El Alcalde se encuentra con mandato de detención y tres regidores enfrentan el mandato de comparecencia. El 3 
+
+    [Amazonas] 8 casos fuzzy -> 1
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Dorato Perú SAC por 
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita por posible
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita pues señala
+       - Pobladores de comunidades nativas de Cenepa se oponen a la actividad minera de la empresa Afrodita porque no s
+
+    [Ayacucho] 7 casos fuzzy -> 1
+       - Provincia de Cangallo Oscar Tineo de la Cruz, Alcalde Provincial El Frente de Defensa ha cuestionado al Alcald
+       - Desde abril de 2004, el Frente de Defensa ha cuestionado al Alcalde porque habría iniciado la remodelación del
+       - Provincia de Cangallo Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado des
+       - Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado desde abril de 2004 por e
+
+    [Áncash] 7 casos fuzzy -> 1
+       - Por supuestas irregularidades en el manejo presupuestario, el 4 de diciembre de 2001 los pobladores tomaron el
+       - El 4 de diciembre de 2001, los pobladores tomaron el local municipal y bloquearon las puertas de ingreso, acus
+
+    [Cajamarca] 6 casos fuzzy -> 1
+       - existe descontento de un sector de la población hacia la gestión del alcalde. Durante el mes de marzo la pobla
+       - Provincia de Cutervo Jorge Luis Paredes Guevara, Alcalde Provincial En marzo, la población descontenta por la 
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, se movilizó en protesta pretendiend
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, pretendió sacarlo del cargo por la 
+
+    [Puno] 6 casos fuzzy -> 1
+       - cuestionamiento a la gestión municipal por supuesto incumplimiento de promesas electorales e incumplimiento de
+       - Organizaciones sociales encabezadas por la Central de Barrios cuestionan, desde el mes de enero, la gestión mu
+       - Provincia de San Román Miguel Ramos Benique, Alcalde Provincial (MI Moral y Desarrollo) es cuestionado por org
+       - Miguel Ramos Benique, Alcalde Provincial (MI Moral y Desarrollo) es cuestionado por organizaciones sociales en
+
+    [Puno] 6 casos fuzzy -> 1
+       - el 10-11 de mayo tuvo lugar un paro contra acalde. Se tomó el local del municipio, se lacraron las puertas y u
+       - Los días 10 y 11 de mayo se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron las puer
+       - Los días 10 y 11 de mayo de 2004 se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron 
+
+    [La Libertad] 6 casos fuzzy -> 1
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de alumnos y alumnas que exigen la renuncia de
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de estudiantes que exigen la renuncia del Rect
+       - Universidad Nacional de Trujillo El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de estudiante
+
+    [La Libertad] 6 casos fuzzy -> 1
+       - Descontento de un sector de la población por la gestión del Alcalde, por supuesta falta de transparencia en la
+       - Un sector de la población cuestiona la gestión del Alcalde por supuesta falta de transparencia, así como supue
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Distrital Arístides
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Arístides Ovidio Al
+
+    [Amazonas] 6 casos fuzzy -> 1
+       - El 28 de abril, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas, en terr
+       - El 28 de abril de 2004, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas,
+
+    [San Martín] 6 casos fuzzy -> 1
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañados por un representante de la Prefectu
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañada por un representante de la Prefectur
+
+    [Arequipa] 6 casos fuzzy -> 1
+       - Agricultores, pobladores y autoridades locales de la provincia de Islay se oponen al proyecto minero Tía María
+       - Agricultores, pobladores y autoridades locales de la provincia de Islay se oponen al proyecto Tía María de la 
+
+    [Áncash] 5 casos fuzzy -> 1
+       - asesinato del periodista Antonio De la Torre Echandia, ocurrido en la ciudad de Yungay el pasado 14 de febrero
+       - Provincia de Yungay Amaro León León, Alcalde Provincial La población acusa al Alcalde de ser el autor intelect
+       - La población acusa al Alcalde de ser el autor intelectual del asesinato del periodista Antonio De la Torre Ech
+       - Provincia de Yungay El Alcalde Provincial, Amaro León León (MI Yungay al Progreso) es acusado por la población
+
+    [Huánuco] 5 casos fuzzy -> 1
+       - cuestionamiento a elecciones municipales y no ha dejado ingresar al alcalde desde el 2002. Además, cuando esta
+       - La población, que cuestiona el resultado de las elecciones municipales, no ha dejado ingresar al Alcalde desde
+       - La población cuestiona el resultado de las elecciones municipales, y no ha dejado ingresar al Alcalde desde el
+       - La población cuestiona el resultado de las elecciones municipales. No ha dejado ingresar al Alcalde desde el a
+
+    [Puno] 5 casos fuzzy -> 1
+       - protestas de la población contra la gestión del ex alcalde Cirilo Robles derivaron en el asesinato de dicha au
+       - Protestas de la población contra la gestión del ex alcalde Cirilo Robles derivaron en el asesinato de dicha au
+
+
+Embeddings (umbral 0.9):
+  casos únicos      : 4069
+  de un solo mes    : 1543 (37.9%)
+  mediana de meses  : 3
+  máximo de meses   : 130
+  fusiones (1 caso nuevo <- varios fuzzy): 388
+
+  Fusiones más grandes (revisar a mano, umbral 0.9):
+    [Áncash] 7 casos fuzzy -> 1
+       - Por supuestas irregularidades en el manejo presupuestario, el 4 de diciembre de 2001 los pobladores tomaron el
+       - El 4 de diciembre de 2001, los pobladores tomaron el local municipal y bloquearon las puertas de ingreso, acus
+
+    [Loreto] 7 casos fuzzy -> 1
+       - El Alcalde se encuentra con mandato de detención y 3 regidores se encuentran con comparecencia. El 3 de agosto
+       - El Alcalde se encuentra con mandato de detención y tres regidores enfrentan el mandato de comparecencia. El 3 
+
+    [Puno] 6 casos fuzzy -> 1
+       - el 10-11 de mayo tuvo lugar un paro contra acalde. Se tomó el local del municipio, se lacraron las puertas y u
+       - Los días 10 y 11 de mayo se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron las puer
+       - Los días 10 y 11 de mayo de 2004 se realizó un paro contra el Acalde. Se tomó el local municipal, se lacraron 
+
+    [Ayacucho] 6 casos fuzzy -> 1
+       - Provincia de Cangallo Oscar Tineo de la Cruz, Alcalde Provincial El Frente de Defensa ha cuestionado al Alcald
+       - Desde abril de 2004, el Frente de Defensa ha cuestionado al Alcalde porque habría iniciado la remodelación del
+       - Provincia de Cangallo Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado des
+       - Eduardo Oscar Tineo de la Cruz, Alcalde Provincial (Partido Aprista), es cuestionado desde abril de 2004 por e
+
+    [La Libertad] 6 casos fuzzy -> 1
+       - Descontento de un sector de la población por la gestión del Alcalde, por supuesta falta de transparencia en la
+       - Un sector de la población cuestiona la gestión del Alcalde por supuesta falta de transparencia, así como supue
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Distrital Arístides
+       - Huaranchal, Provincia de Otuzco Un sector de la población cuestiona la gestión del Alcalde Arístides Ovidio Al
+
+    [Amazonas] 6 casos fuzzy -> 1
+       - El 28 de abril, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas, en terr
+       - El 28 de abril de 2004, el Alcalde y el Administrador Municipal fueron detenidos en el distrito de Cahuapanas,
+
+    [San Martín] 6 casos fuzzy -> 1
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañados por un representante de la Prefectu
+       - El 19 de agosto, por gestión de la DP, una comisión de la CGR, acompañada por un representante de la Prefectur
+
+    [Cajamarca] 5 casos fuzzy -> 1
+       - existe descontento de un sector de la población hacia la gestión del alcalde. Durante el mes de marzo la pobla
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, se movilizó en protesta pretendiend
+       - En marzo de este año, la población descontenta por la gestión del Alcalde, pretendió sacarlo del cargo por la 
+       - En marzo, la población descontenta por la gestión del Alcalde, pretendió sacarlo del cargo por la fuerza. En s
+
+    [Puno] 5 casos fuzzy -> 1
+       - protestas de la población contra la gestión del ex alcalde Cirilo Robles derivaron en el asesinato de dicha au
+       - Protestas de la población contra la gestión del ex alcalde Cirilo Robles derivaron en el asesinato de dicha au
+
+    [La Libertad] 5 casos fuzzy -> 1
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de alumnos y alumnas que exigen la renuncia de
+       - El 22 de junio, la Ciudad Universitaria fue tomada por un grupo de estudiantes que exigen la renuncia del Rect
+
+    [San Martín] 5 casos fuzzy -> 1
+       - Desde febrero de este año, un grupo de pobladores, dirigido por el denominado Frente de Juventudes de Huicungo
+       - Desde febrero, un grupo de pobladores, dirigido por el denominado Frente de Juventudes de Huicungo, tomó el lo
+       - El 7 de enero, un grupo de pobladores, dirigido por el denominado Frente de Juventudes de Huicungo, tomó el lo
+
+    [Huánuco] 5 casos fuzzy -> 1
+       - El 17 de noviembre, pobladores de Luyando (Naranjillo) tomaron el local de la MD en protesta por la falta de c
+       - El 17 de noviembre de 2004, pobladores de Luyando (Naranjillo) tomaron el local de la MD en protesta por la fa
+       - El 17 de noviembre del 2004, pobladores de Luyando (Naranjillo) tomaron el local de la MD en protesta por la f
+
+    [La Libertad] 5 casos fuzzy -> 1
+       - Los pobladores del distrito tomaron el local municipal por las presuntas irregularidades en la administración 
+       - Los pobladores del distrito tomaron el local municipal por presuntas irregularidades en la administración muni
+
+    [Piura] 5 casos fuzzy -> 1
+       - El 3 de agosto de 2005, pobladores y autoridades de Huarmaca impidieron la realización del Censo Nacional prog
+       - El 3 de agosto del 2005, pobladores y autoridades de Huarmaca impidieron la realización del Censo Nacional pro
+       - Pobladores y autoridades de Huarmaca impidieron la realización del Censo Nacional programado por el INEI, debi
+
+    [Áncash] 5 casos fuzzy -> 1
+       - Además, debía fijar su posición frente a los reclamos de la población en torno a la contaminación que originan
+
