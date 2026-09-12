@@ -9,6 +9,9 @@ Thumbs.db
 # Credenciales
 .env
 
+# Notas internas del grupo (bitácora Drive / reuniones). No se publican.
+03_notas/
+
 # Caché de llamadas al LLM (regenerable)
 *.sqlite
 cache_llm.sqlite

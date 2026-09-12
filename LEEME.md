@@ -10,7 +10,7 @@ En la raíz solo hay estas carpetas, en el orden en que conviene leerlas.
 |---|---|
 | `01_datos` | Crudos (PDF), inventario y tablas ya extraídas |
 | `02_codigo` | Scripts. El de trabajo diario es `extraer_conflictos.py` |
-| `03_notas` | Informes LaTeX de la carpeta Minería en Drive (no son el paper) |
+| `03_notas` | Bitácora local del grupo. No se versiona |
 | `04_docs` | Cómo funciona el extractor local y por qué se dejó el de Drive |
 | `99_archivo` | Descarga vieja, respaldos, sondas de auditoría. No usar para análisis |
 

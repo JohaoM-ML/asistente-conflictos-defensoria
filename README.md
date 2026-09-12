@@ -133,7 +133,6 @@ Salidas en `01_datos/procesados/conflictos/calidad`.
 |---|---|
 | `01_datos` | Inventario, panel y (si las bajaste) PDF |
 | `02_codigo` | Scripts. Diario: `extraer_conflictos.py` |
-| `03_notas` | Informes de la carpeta Minería en Drive |
 | `04_docs` | Cómo extrae este directorio y el pipeline viejo |
 | `99_archivo` | En el clon solo queda el índice; respaldos y PDF viejos no se suben |
 
